@@ -107,18 +107,21 @@ namespace dbProvider
 		public Dictionary<int, Incoming> GetIncom()
 		{
 			var res = new Dictionary<int, Incoming>();
-			using(var cmd = new NpgsqlCommand(@"SELECT * FROM incoming", _npcon))
+			using(var cmd = new NpgsqlCommand($@"SELECT p.nm, g.nm, count, price
+			FROM incoming inc
+			JOIN provider p ON inc.provider_pk = p.pk
+			JOIN goods g ON inc.goods_pk = g.pk", _npcon))
 			{
 				using(var r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
 						var inc_pk = (int)r["pk"];
-						var goods_pk = (int)r["goods_pk"];
-						var provider_pk = (int)r["provider_pk"];
+						var p_nm = (int)r["p.nm"];
+						var g_nm = (int)r["g.nm"];
 						var price = (int)r["price"];
 						var count = (int)r["count"];
-						var inc = new Incoming(inc_pk, goods_pk, provider_pk, price, count);
+						var inc = new Incoming(inc_pk, p_nm,g_nm,  price, count);
 						res[inc_pk] = inc;
 					}
 				}

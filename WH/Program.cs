@@ -87,7 +87,7 @@ namespace WH
 							break;
 						case 8:
 							Console.WriteLine("Показать приход:\n");
-							foreach(var incoming in wh.incom) Console.WriteLine($"Номер: {incoming.Key} Товар: {incoming.Value.goods_pk} Поставщик: {incoming.Value.provider_pk} Цена: {incoming.Value.price} Количество: {incoming.Value.count}");
+							foreach(var incoming in wh.incom) Console.WriteLine($"Номер: {incoming.Key} Поставщик: {incoming.Value.p_nm} Товар: {incoming.Value.g_nm} Цена: {incoming.Value.price} Количество: {incoming.Value.count}");
 							break;
 						case 99:
 							Console.WriteLine("Хочу выйти из ПО.");
