@@ -1,0 +1,14 @@
+https://github.com/
+
+https://github.com/aleksandrpetushkov/AnzhkEduc.git
+
+https://www.youtube.com/watch?v=X2ohiL4cN7c
+
+
+ALTER TABLE tch ADD PRIMARY KEY (pk)
+
+
+ALTER TABLE %таблица_в_которой_нужно_создать_внешний_ключ_на_поле_другой_таблици% 
+	ADD CONSTRAINT %название_кострейна% FOREIGN KEY (%название_колонки_внешнего_ключа%) 
+	REFERENCES %название_таблици_на которую будет_ссылаться_ФК% (%название_колонки_на_которую_будет_сслыться_ФК%);
+
