@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AngWork
+﻿namespace AngWork
 {
-    public interface Ialive
-    {
-        int Age();
-        string WhyYou();        
-
-    }
-
+	public interface Ialive
+	{
+		int Age();
+		string WhyYou();
+	}
 }
