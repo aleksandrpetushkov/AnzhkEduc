@@ -34,7 +34,7 @@ namespace AngWork
 
 		public void live()
 		{
-			for(var i = Age; i < 100; ++i)
+			for(int i = Age; i < 100; ++i)
 				if(i % 5 == 0)
 					Anniversary.Invoke();
 		}
@@ -65,7 +65,7 @@ namespace AngWork
 
 			//(int i = 0; i < count; ++i) - параметры/условия цикла for, int i - 
 			//int i = 0;
-			for(var i = 0; i < count; ++i)
+			for(int i = 0; i < count; ++i)
 				//+ (plus) - конкатенирует строки (как бы "складывает") в результате мы получаем одну результирующую сконкатенированную строку
 				// (как бы  сложенную) из маленьких строк и значений 
 				Console.WriteLine("Имя: " + Name + ", " + "Фамилия: " + LastName + ", " + "Возраст: " + Age);
@@ -84,7 +84,7 @@ namespace AngWork
 		public void Print(string count)
 		{
 			//int cnt; 
-			if(int.TryParse(count, out var i))
+			if(int.TryParse(count, out int i))
 				Print(i);
 			else
 				Console.WriteLine("Вы подали не число");

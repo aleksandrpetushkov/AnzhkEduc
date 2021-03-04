@@ -21,14 +21,14 @@ namespace lesson2
 
 		private static void Main(string[] args)
 		{
-			var ps = new StreamReader(@"C:\Users\Sth\Desktop\peoples.txt");
+			StreamReader ps = new StreamReader(@"C:\Users\Sth\Desktop\peoples.txt");
 			Student lol;
-			var ls = new List<Student>();
-			var dc = new Dictionary<string, Student>();
+			List<Student> ls = new List<Student>();
+			Dictionary<string, Student> dc = new Dictionary<string, Student>();
 			while(!ps.EndOfStream)
 			{
 				//Console.WriteLine(ps.ReadLine().Trim(' '));
-				var st_reader = string.Empty;
+				string st_reader = string.Empty;
 				try
 				{
 					string[] st_mass;
@@ -71,7 +71,7 @@ namespace lesson2
 			}
 			//*/
 			Console.WriteLine();
-			for(var i = 0; i < ls.Count; ++i)
+			for(int i = 0; i < ls.Count; ++i)
 			{
 				ls[i].Print(1);
 				ls[i].prt -= Валя;
@@ -79,7 +79,7 @@ namespace lesson2
 				ls[i].prt += Коля;
 			}
 			Console.WriteLine("\r\n\r\nВыводим студентов после отписки...");
-			for(var i = 0; i < ls.Count; ++i) ls[i].Print(1);
+			for(int i = 0; i < ls.Count; ++i) ls[i].Print(1);
 			void Валя(string st, int i)
 			{
 				Console.WriteLine($"Я Валя и я получила сообщеие студента: {st}");

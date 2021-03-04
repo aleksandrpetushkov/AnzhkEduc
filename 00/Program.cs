@@ -7,14 +7,14 @@ namespace _00
 		private static void Main(string[] args)
 		{
 			string[] st;
-			var x = 0;
+			int x = 0;
 			while(x < 5)
 			{
 				Console.WriteLine("Введите цифры:");
 				st = Console.ReadLine().Split(' ');
-				int.TryParse(st[0], out var i);
-				int.TryParse(st[1], out var r);
-				int.TryParse(st[2], out var e);
+				int.TryParse(st[0], out int i);
+				int.TryParse(st[1], out int r);
+				int.TryParse(st[2], out int e);
 				int c;
 				c = Max(i, r, e);
 				Console.WriteLine("Максимальное число:");

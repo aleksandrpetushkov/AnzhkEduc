@@ -20,7 +20,7 @@ namespace tst_0
 
 		public void Print(int count)
 		{
-			for(var i = 0; i < count; ++i) Console.WriteLine("Вид: " + Type + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
+			for(int i = 0; i < count; ++i) Console.WriteLine("Вид: " + Type + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
 		}
 	}
 

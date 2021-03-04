@@ -14,7 +14,7 @@ namespace Wrk
 			while(true)
 			{
 				st = Console.ReadLine().Split(' ');
-				if(st.Length < 3 || !int.TryParse(st[2], out var i))
+				if(st.Length < 3 || !int.TryParse(st[2], out int i))
 				{
 					Console.WriteLine("Povtorite vvod");
 					continue;
@@ -26,7 +26,7 @@ namespace Wrk
 			while(true)
 			{
 				Console.Write("--------------------------\nMenu:\n1. Execute work.\n2. Calc work and exit.\nEnter why do you want: ");
-				var m = 0;
+				int m = 0;
 				try
 				{
 					m = int.Parse(Console.ReadLine());
@@ -39,8 +39,8 @@ namespace Wrk
 				{
 					case 1:
 						Console.Write("Enter type work and hours: ");
-						var wrk_hours = Console.ReadLine();
-						var ms_wrk_hours = wrk_hours.Split(' ');
+						string wrk_hours = Console.ReadLine();
+						string[] ms_wrk_hours = wrk_hours.Split(' ');
 						wrk.ExecWorks(ms_wrk_hours[0], int.Parse(ms_wrk_hours[1]));
 						break;
 					case 2:

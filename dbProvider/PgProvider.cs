@@ -16,7 +16,7 @@ namespace dbProvider
 		//Конструктор используется для создания объектов.
 		public PgProvider(string ip, string unm, string pswd, string dbnm, string apnm, int port = 5432)
 		{
-			var sb = new NpgsqlConnectionStringBuilder
+			NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder
 			{
 				Password = pswd
 				, Port = port
@@ -27,7 +27,7 @@ namespace dbProvider
 				, ApplicationName = apnm
 				, Username = unm
 			};
-			var sb1 = new NpgsqlConnectionStringBuilder();
+			NpgsqlConnectionStringBuilder sb1 = new NpgsqlConnectionStringBuilder();
 			sb1.Password = pswd;
 			sb1.Port = port;
 			sb1.Database = dbnm;
@@ -36,7 +36,7 @@ namespace dbProvider
 			sb1.CommandTimeout = 360;
 			sb1.ApplicationName = apnm;
 			sb1.Username = unm;
-			var st = sb.ToString();
+			string st = sb.ToString();
 			_npcon = new NpgsqlConnection(st);
 			_npcon.Open();
 			if(_npcon.State != ConnectionState.Open) throw new Exception("ALLLBAAAD");
@@ -49,16 +49,16 @@ namespace dbProvider
 
 		public Dictionary<int, Provider> GetPrvds()
 		{
-			var res = new Dictionary<int, Provider>();
-			using(var cmd = new NpgsqlCommand(@"SELECT * FROM provider;", _npcon))
+			Dictionary<int, Provider> res = new Dictionary<int, Provider>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM provider;", _npcon))
 			{
-				using(var r = cmd.ExecuteReader())
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
-						var pr_pk = (int)r["pk"];
-						var pr_nm = (string)r["nm"];
-						var p = new Provider(pr_pk, pr_nm);
+						int pr_pk = (int)r["pk"];
+						string pr_nm = (string)r["nm"];
+						Provider p = new Provider(pr_pk, pr_nm);
 						res[pr_pk] = p;
 					}
 				}
@@ -68,16 +68,16 @@ namespace dbProvider
 
 		public Dictionary<int, Consumer> GetConsumers()
 		{
-			var res = new Dictionary<int, Consumer>();
-			using(var cmd = new NpgsqlCommand(@"SELECT * FROM consumer", _npcon))
+			Dictionary<int, Consumer> res = new Dictionary<int, Consumer>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM consumer", _npcon))
 			{
-				using(var r = cmd.ExecuteReader())
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
-						var cs_pk = (int)r["pk"];
-						var cs_nm = (string)r["nm"];
-						var cns = new Consumer(cs_pk, cs_nm);
+						int cs_pk = (int)r["pk"];
+						string cs_nm = (string)r["nm"];
+						Consumer cns = new Consumer(cs_pk, cs_nm);
 						res[cs_pk] = cns;
 					}
 				}
@@ -87,16 +87,16 @@ namespace dbProvider
 
 		public Dictionary<int, Goods> GetGoods()
 		{
-			var res = new Dictionary<int, Goods>();
-			using(var cmd = new NpgsqlCommand(@"SELECT * FROM goods", _npcon))
+			Dictionary<int, Goods> res = new Dictionary<int, Goods>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM goods", _npcon))
 			{
-				using(var r = cmd.ExecuteReader())
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
-						var gs_pk = (int)r["pk"];
-						var gs_nm = (string)r["nm"];
-						var gds = new Goods(gs_pk, gs_nm);
+						int gs_pk = (int)r["pk"];
+						string gs_nm = (string)r["nm"];
+						Goods gds = new Goods(gs_pk, gs_nm);
 						res[gs_pk] = gds;
 					}
 				}
@@ -106,22 +106,44 @@ namespace dbProvider
 
 		public Dictionary<int, Incoming> GetIncom()
 		{
-			var res = new Dictionary<int, Incoming>();
-			using(var cmd = new NpgsqlCommand($@"SELECT p.nm, g.nm, count, price
+			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM incoming", _npcon))
+			{
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
+				{
+					while(r.Read())
+					{
+						int inc_pk = (int)r["pk"];
+						int goods_pk = (int)r["goods_pk"];
+						int provider_pk = (int)r["provider_pk"];
+						int price = (int)r["price"];
+						int count = (int)r["count"];
+						Incoming inc = new Incoming(inc_pk, goods_pk, provider_pk, price, count);
+						res[inc_pk] = inc;
+					}
+				}
+			}
+			return res;
+		}
+
+		public Dictionary<int, Incoming> GetIncomNm()
+		{
+			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"SELECT p.nm pnm, g.nm gnm, count, price, inc.pk pk
 			FROM incoming inc
 			JOIN provider p ON inc.provider_pk = p.pk
 			JOIN goods g ON inc.goods_pk = g.pk", _npcon))
 			{
-				using(var r = cmd.ExecuteReader())
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
-						var inc_pk = (int)r["pk"];
-						var p_nm = (int)r["p.nm"];
-						var g_nm = (int)r["g.nm"];
-						var price = (int)r["price"];
-						var count = (int)r["count"];
-						var inc = new Incoming(inc_pk, p_nm,g_nm,  price, count);
+						int inc_pk = (int)r["pk"];
+						string p_nm = (string)r["pnm"];
+						string g_nm = (string)r["gnm"];
+						int price = (int)r["price"];
+						int count = (int)r["count"];
+						Incoming inc = new Incoming(inc_pk, p_nm, g_nm, price, count);
 						res[inc_pk] = inc;
 					}
 				}
@@ -136,7 +158,7 @@ namespace dbProvider
 //			st.Replace("Ситилинк",st);
 //			Console.WriteLine("Мы пытались загрузить строку {st_reader} и чота мы эксепшн словили вот его мессадж: {e.Message}");
 			int i;
-			using(var cmd = new NpgsqlCommand($@"INSERT INTO provider (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO provider (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -145,7 +167,7 @@ namespace dbProvider
 		public void InsertCs(string st)
 		{
 			int i;
-			using(var cmd = new NpgsqlCommand($@"INSERT INTO consumer (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO consumer (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -154,7 +176,7 @@ namespace dbProvider
 		public void InsertGoods(string st)
 		{
 			int i;
-			using(var cmd = new NpgsqlCommand($@"INSERT INTO goods (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO goods (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -162,10 +184,10 @@ namespace dbProvider
 
 		public List<string> execCmd(string query)
 		{
-			var st = new List<string>();
-			using(var cmd = new NpgsqlCommand(query, _npcon))
+			List<string> st = new List<string>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(query, _npcon))
 			{
-				using(var r = cmd.ExecuteReader())
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read()) st.Add((string)r["nm"]);
 				}
@@ -176,7 +198,7 @@ namespace dbProvider
 		public void InsertIncom(int goods_pk, int provider_pk, int price, int count)
 		{
 			int i;
-			using(var cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
 			VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{count}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();

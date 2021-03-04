@@ -26,9 +26,9 @@ namespace LibPers
 
 		public void CalcWorks()
 		{
-			var i = 0;
+			int i = 0;
 			Console.WriteLine($"{Name} {Last_name} {Birthday} execute these works:");
-			foreach(var wrk in Works)
+			foreach(KeyValuePair<string, int> wrk in Works)
 			{
 				Console.WriteLine($"wokr: {wrk.Key} - hours: {wrk.Value}");
 				i += wrk.Value;

@@ -9,14 +9,14 @@ namespace tst_0
 	{
 		private static void Main(string[] args)
 		{
-			var Ang = new Animal("Black", 22, "Ang", "Angelica");
-			var Alk = new Animal("White", 35, "Volk", "Kuzmich");
-			var Cat = new Animal("Black", 22, "Cat", "Cisic");
-			var List_anml = new List<Animal>();
+			Animal Ang = new Animal("Black", 22, "Ang", "Angelica");
+			Animal Alk = new Animal("White", 35, "Volk", "Kuzmich");
+			Animal Cat = new Animal("Black", 22, "Cat", "Cisic");
+			List<Animal> List_anml = new List<Animal>();
 			List_anml.Add(Ang);
 			List_anml.Add(Alk);
 			List_anml.Add(Cat);
-			var ds = new Dictionary<string, Animal>();
+			Dictionary<string, Animal> ds = new Dictionary<string, Animal>();
 			ds[Cat.Name] = Cat;
 			ds[Ang.Name] = Ang;
 			ds[Alk.Name] = Alk;

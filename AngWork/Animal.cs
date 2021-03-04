@@ -18,7 +18,7 @@ namespace AngWork
 
 		public override void Print(int count)
 		{
-			for(var i = 0; i < count; ++i) Console.WriteLine("Вид: " + Kind + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
+			for(int i = 0; i < count; ++i) Console.WriteLine("Вид: " + Kind + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
 		}
 
 		/*

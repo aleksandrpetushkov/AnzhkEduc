@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using dbProvider;
 
 namespace EduDb
@@ -8,9 +9,9 @@ namespace EduDb
 		private static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
-			var prvd = new PgProvider("192.168.0.11", "ang", "ang", "my_db", "tst_wh");
-			var i = prvd.execCmd(@"SELECT * from tch GROUP BY pk;");
-			foreach(var st in i) Console.WriteLine(st);
+			PgProvider prvd = new PgProvider("192.168.0.11", "ang", "ang", "my_db", "tst_wh");
+			List<string> i = prvd.execCmd(@"SELECT * from tch GROUP BY pk;");
+			foreach(string st in i) Console.WriteLine(st);
 		}
 	}
 }
