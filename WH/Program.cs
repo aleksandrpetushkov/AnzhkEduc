@@ -76,13 +76,14 @@ namespace WH
 							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
 							break;
 						case 7:
+							Console.WriteLine("-----------------------\nВсе товары:\n");
+							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
 							Console.WriteLine("Все поставщики:\n");
 							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
 								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.nm}");
-							Console.WriteLine("-----------------------\nВсе товары:\n");
-							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+							
 							Console.WriteLine(
-								"----------------\nВвести приход: введите через запятую пк товара, пк поставщика, цену товара и количество товара (в кг)\n");
+								"----------------\nВвести приход: введите через запятую пк товара, пк поставщика, цену товара и количество товара (в кг)");
 							st = Console.ReadLine();
 							//расписать действие в 3 итерации
 							string[] mas = st.Split(',', ' ', ';');
@@ -92,14 +93,15 @@ namespace WH
 								Console.WriteLine("Не корректный ввод, повторите");
 								continue;
 							}
-							int[] mass = new int[4];
+							// int[] mass - объявление и инициальзация
+							int[] mas_int = new int[4];
 							
 							bool chek = false;
 							for(int i = 0; i < mas.Length; i++)
 							{
 								//обращение к какой-либо перменной или методу - это НАПИСАТЬ НАЗВАНИЕ ЭТОГО(написать название метода или переменной)
 								Console.WriteLine($"Вы ввели: {mas[i]}");
-								if(!int.TryParse(mas[i], out mass[i]))
+								if(!int.TryParse(mas[i], out mas_int[i]))
 								{
 									Console.WriteLine("Не корректный ввод, повторите");
 									chek = false;
@@ -113,13 +115,22 @@ namespace WH
 							
 							if(chek)
 							{
-								Console.WriteLine($"Вы ввели: Название товара: {OurWh.gs[mass[0]].nm} Поставщик: {OurWh.prvds[mass[1]].nm} " +
-								                  $"Цена: {mass[2]} Количество: {mass[3]} \nПодтвердить ввод: 1-да, !1-нет");
+								if(OurWh.gs.TryGetValue(mas_int[0], out Goods g) && OurWh.prvds.TryGetValue(mas_int[1], out Provider prov))
+								{
+									Console.WriteLine($"Вы ввели: Название товара: {OurWh.gs[mas_int[0]].nm} Поставщик: {OurWh.prvds[mas_int[1]].nm} " +
+									                  $"Цена: {mas_int[2]} Количество: {mas_int[3]} \nПодтвердить ввод: 1-да, !1-нет");
+								}
+								else
+								{
+									Console.WriteLine("Вы пытались обратиться к несуществующему объекту");
+									break;
+								}
+								
 
 								if(int.TryParse(Console.ReadLine(), out int z) && z == 1)
 								{
 									
-									OurWh.AddIncom(mass[0], mass[1], mass[2], mass[3]);
+									OurWh.AddIncom(mas_int[0], mas_int[1], mas_int[2], mas_int[3]);
 								}
 								else
 								{
