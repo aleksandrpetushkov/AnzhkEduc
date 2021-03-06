@@ -15,12 +15,12 @@ namespace WH
 			try //блок трай
 			{
 				IDALWH dal = new PgProvider("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
-				;
-				WH wh = new WH(dal);
+				
+				WH OurWh = new WH(dal);
 				int t = 0;
 				while(t != 99)
 				{
-					Console.WriteLine($"------------------Выберите пункт меню: \n1" + $".Ввести поставщика; \n2.Ввести потребителя; \n" +
+					Console.WriteLine($"------------------\nВыберите пункт меню: \n1" + $".Ввести поставщика; \n2.Ввести потребителя; \n" +
 					                  $"3.Все потребители; \n4.Все поставщики; \n" + $"5.Ввести товар: \n6.Все товары; \n" + $"7.Ввести приход; \n" +
 					                  $"8.Показать приход; \n" + $"Или нажмите 99 для выхода:");
 					if(!int.TryParse(Console.ReadLine(), out t))
@@ -40,7 +40,7 @@ namespace WH
 								Console.WriteLine("Не корректный ввод, повторите");
 							}
 							else
-								wh.InsertPrvd(st);
+								OurWh.InsertPrvd(st);
 							break;
 						case 2:
 							Console.WriteLine("Ввести потребителя:");
@@ -49,18 +49,16 @@ namespace WH
 							if(st.Length != check2.Length)
 								Console.WriteLine("Не корректный ввод, повтрите");
 							else
-								wh.InsertCs(st);
+								OurWh.InsertCs(st);
 							break;
 						case 3:
 							Console.WriteLine("Все потребители:\n");
-							foreach(KeyValuePair<int, Consumer> consumer in wh.cs)
-							{
+							foreach(KeyValuePair<int, Consumer> consumer in OurWh.cs) 
 								Console.WriteLine($"Номер: {consumer.Key} Название: {consumer.Value.nm}");
-							}
 							break;
 						case 4:
 							Console.WriteLine("Все поставщики:\n");
-							foreach(KeyValuePair<int, Provider> provider in wh.prvds)
+							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
 								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.nm}");
 							///wh.prvds
 							break;
@@ -71,36 +69,71 @@ namespace WH
 							if(st.Length != check3.Length)
 								Console.WriteLine("Не корректный ввод, повторите");
 							else
-								wh.InsertGoods(st);
+								OurWh.InsertGoods(st);
 							break;
 						case 6:
 							Console.WriteLine("Все товары:\n");
-							foreach(KeyValuePair<int, Goods> goods in wh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
 							break;
 						case 7:
 							Console.WriteLine("Все поставщики:\n");
-							foreach(KeyValuePair<int, Provider> provider in wh.prvds)
+							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
 								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.nm}");
 							Console.WriteLine("-----------------------\nВсе товары:\n");
-							foreach(KeyValuePair<int, Goods> goods in wh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
 							Console.WriteLine(
 								"----------------\nВвести приход: введите через запятую пк товара, пк поставщика, цену товара и количество товара (в кг)\n");
 							st = Console.ReadLine();
-							string[] mas = st.Split(",");
+							//расписать действие в 3 итерации
+							string[] mas = st.Split(',', ' ', ';');
+							
+							if(mas.Length != 4)
+							{
+								Console.WriteLine("Не корректный ввод, повторите");
+								continue;
+							}
 							int[] mass = new int[4];
+							
+							bool chek = false;
 							for(int i = 0; i < mas.Length; i++)
 							{
+								//обращение к какой-либо перменной или методу - это НАПИСАТЬ НАЗВАНИЕ ЭТОГО(написать название метода или переменной)
 								Console.WriteLine($"Вы ввели: {mas[i]}");
-								int.TryParse(mas[i], out mass[i]);
+								if(!int.TryParse(mas[i], out mass[i]))
+								{
+									Console.WriteLine("Не корректный ввод, повторите");
+									chek = false;
+									break;
+								}
+								else
+								{
+									chek = true;
+								}
 							}
-							wh.AddIncom(mass[0], mass[1], mass[2], mass[3]);
+							
+							if(chek)
+							{
+								Console.WriteLine($"Вы ввели: Название товара: {OurWh.gs[mass[0]].nm} Поставщик: {OurWh.prvds[mass[1]].nm} " +
+								                  $"Цена: {mass[2]} Количество: {mass[3]} \nПодтвердить ввод: 1-да, !1-нет");
+
+								if(int.TryParse(Console.ReadLine(), out int z) && z == 1)
+								{
+									
+									OurWh.AddIncom(mass[0], mass[1], mass[2], mass[3]);
+								}
+								else
+								{
+									Console.WriteLine("Вы отказались от ввода");
+								}
+								
+							}
 							break;
 						case 8:
 							Console.WriteLine("Показать приход:\n");
-							foreach(KeyValuePair<int, Incoming> inc in wh.incom)
+							foreach(KeyValuePair<int, Incoming> inc in OurWh.incom)
 							{
 								Console.WriteLine(
-									$"Номер: {inc.Key} Товар: {wh.gs[inc.Value.goods_pk].nm} Поставщик: {wh.prvds[inc.Value.provider_pk].nm} Цена: {inc.Value.price} Количество: {inc.Value.count}");
+									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].nm} Поставщик: {OurWh.prvds[inc.Value.provider_pk].nm} Цена: {inc.Value.price} Количество: {inc.Value.count}");
 							}
 							break;
 						case 99:

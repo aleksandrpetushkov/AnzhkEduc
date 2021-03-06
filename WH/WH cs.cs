@@ -29,6 +29,7 @@ namespace WH
 			incom = PgP.GetIncom();
 		}
 
+		
 		//TODO: Dictionаry - это
 		public Dictionary<int, Provider> prvds { get; protected set; }
 		protected internal Dictionary<int, Consumer> cs { get; set; }
