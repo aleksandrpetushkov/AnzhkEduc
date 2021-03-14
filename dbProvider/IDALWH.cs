@@ -21,5 +21,6 @@ namespace dbProvider
 		void InsertIncom(int goodsPk, int providerPk, int price, int count);
 
 		Dictionary<int, Incoming> GetIncom();
+		Dictionary<int, Stocks> GetStocks();
 	}
 }

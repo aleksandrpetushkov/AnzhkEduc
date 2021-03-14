@@ -5,8 +5,8 @@
 		public int pk { get; }
 		public int goods_pk { get; }
 		public int provider_pk { get; }
-		public string p_nm { get; }
-		public string g_nm { get; }
+		// public string p_nm { get; }
+		// public string g_nm { get; }
 		public int price { get; }
 		public int count { get; }
 
@@ -19,13 +19,13 @@
 			count = _count;
 		}
 
-		public Incoming(int __pk, string __p_nm, string __g_nm, int __price, int __count)
+		/*public Incoming(int __pk, string __p_nm, string __g_nm, int __price, int __count)
 		{
 			pk = __pk;
 			p_nm = __p_nm;
 			g_nm = __g_nm;
 			price = __price;
 			count = __count;
-		}
+		}*/
 	}
 }

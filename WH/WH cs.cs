@@ -27,6 +27,7 @@ namespace WH
 			cs = PgP.GetConsumers();
 			gs = PgP.GetGoods();
 			incom = PgP.GetIncom();
+			stock = PgP.GetStocks();
 		}
 
 		
@@ -35,26 +36,31 @@ namespace WH
 		protected internal Dictionary<int, Consumer> cs { get; set; }
 		public Dictionary<int, Goods> gs { get; set; }
 		public Dictionary<int,Incoming> incom { get; set; } 
+		public Dictionary<int,Stocks> stock { get; set; }
 
 		public void AddIncom(int goods_pk, int provider_pk, int price, int count)
 		{
 			//b logic
 			PgP.InsertIncom(goods_pk, provider_pk, price, count);
+			incom = PgP.GetIncom();
 		}
 
 		public void InsertPrvd(string st)
 		{
 			PgP.InsertPrvd(st);
+			prvds = PgP.GetPrvds();
 		}
 
 		public void InsertCs(string st)
 		{
 			PgP.InsertCs(st);
+			cs = PgP.GetConsumers();
 		}
 
 		public void InsertGoods(string st)
 		{
 			PgP.InsertGoods(st);
+			gs = PgP.GetGoods();
 		}
 
 		

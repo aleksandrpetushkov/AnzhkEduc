@@ -104,6 +104,25 @@ namespace dbProvider
 			return res;
 		}
 
+		public Dictionary<int, Stocks> GetStocks()
+		{
+			Dictionary<int, Stocks> res = new Dictionary<int, Stocks>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"SELECT g.nm, pk_gs, count FROM wh JOIN goods g ON wh.pk_gs = g.pk", _npcon))
+			{
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
+				{
+					while(r.Read())
+					{
+						int pk_gs = (int)r["pk_gs"];
+						int count = (int)r["count"];
+						Stocks stk = new Stocks(pk_gs, count);
+						res[pk_gs] = stk;
+					}
+				}
+			}
+			return res;
+		}
+
 		public Dictionary<int, Incoming> GetIncom()
 		{
 			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
@@ -126,6 +145,7 @@ namespace dbProvider
 			return res;
 		}
 
+		/*
 		public Dictionary<int, Incoming> GetIncomNm()
 		{
 			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
@@ -150,6 +170,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+		*/
 
 		public void InsertPrvd(string st)
 		{

@@ -20,9 +20,18 @@ namespace WH
 				int t = 0;
 				while(t != 99)
 				{
-					Console.WriteLine($"------------------\nВыберите пункт меню: \n1" + $".Ввести поставщика; \n2.Ввести потребителя; \n" +
-					                  $"3.Все потребители; \n4.Все поставщики; \n" + $"5.Ввести товар: \n6.Все товары; \n" + $"7.Ввести приход; \n" +
-					                  $"8.Показать приход; \n" + $"Или нажмите 99 для выхода:");
+					Console.WriteLine(@"------------------
+Выберите пункт меню:
+1.Ввести поставщика; 
+2.Ввести потребителя; 
+3.Все потребители; 
+4.Все поставщики; 
+5.Ввести товар; 
+6.Все товары; 
+7.Ввести приход; 
+8.Показать приход; 
+9.Показать остаток;
+Или нажмите 99 для выхода:");
 					if(!int.TryParse(Console.ReadLine(), out t))
 					{
 						Console.WriteLine("Не корректный ввод");
@@ -93,7 +102,7 @@ namespace WH
 								Console.WriteLine("Не корректный ввод, повторите");
 								continue;
 							}
-							// int[] mass - объявление и инициальзация
+							// int[] mas_int - объявление и инициальзация
 							int[] mas_int = new int[4];
 							
 							bool chek = false;
@@ -143,8 +152,14 @@ namespace WH
 							Console.WriteLine("Показать приход:\n");
 							foreach(KeyValuePair<int, Incoming> inc in OurWh.incom)
 							{
-								Console.WriteLine(
-									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].nm} Поставщик: {OurWh.prvds[inc.Value.provider_pk].nm} Цена: {inc.Value.price} Количество: {inc.Value.count}");
+								Console.WriteLine($"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].nm} Поставщик: {OurWh.prvds[inc.Value.provider_pk].nm} Цена: {inc.Value.price} Количество: {inc.Value.count}");
+							}
+							break;
+						case 9:
+							Console.WriteLine("Показать остаток:\n");
+							foreach(KeyValuePair<int, Stocks> stk in OurWh.stock)
+							{
+								Console.WriteLine($"Товар: {OurWh.gs[stk.Value.pk_gs].nm} Количество {stk.Value.count}");
 							}
 							break;
 						case 99:
