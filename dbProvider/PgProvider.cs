@@ -18,14 +18,8 @@ namespace dbProvider
 		{
 			NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder
 			{
-				Password = pswd
-				, Port = port
-				, Database = dbnm
-				, Host = ip
-				, Pooling = false
-				, CommandTimeout = 360
-				, ApplicationName = apnm
-				, Username = unm
+				Password = pswd, Port = port, Database = dbnm, Host = ip, Pooling = false, CommandTimeout = 360
+				, ApplicationName = apnm, Username = unm
 			};
 			NpgsqlConnectionStringBuilder sb1 = new NpgsqlConnectionStringBuilder();
 			sb1.Password = pswd;
@@ -39,14 +33,13 @@ namespace dbProvider
 			string st = sb.ToString();
 			_npcon = new NpgsqlConnection(st);
 			_npcon.Open();
-			if(_npcon.State != ConnectionState.Open) throw new Exception("ALLLBAAAD");
+			if(_npcon.State != ConnectionState.Open)
+				throw new Exception("ALLLBAAAD");
 			//выбросить исключение
 		}
-
 		public PgProvider()
 		{
 		}
-
 		public Dictionary<int, Provider> GetPrvds()
 		{
 			Dictionary<int, Provider> res = new Dictionary<int, Provider>();
@@ -65,7 +58,6 @@ namespace dbProvider
 			}
 			return res;
 		}
-
 		public Dictionary<int, Consumer> GetConsumers()
 		{
 			Dictionary<int, Consumer> res = new Dictionary<int, Consumer>();
@@ -84,7 +76,6 @@ namespace dbProvider
 			}
 			return res;
 		}
-
 		public Dictionary<int, Goods> GetGoods()
 		{
 			Dictionary<int, Goods> res = new Dictionary<int, Goods>();
@@ -103,26 +94,24 @@ namespace dbProvider
 			}
 			return res;
 		}
-
 		public Dictionary<int, Stocks> GetStocks()
 		{
 			Dictionary<int, Stocks> res = new Dictionary<int, Stocks>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"SELECT g.nm, pk_gs, count FROM wh JOIN goods g ON wh.pk_gs = g.pk", _npcon))
+			using(NpgsqlCommand cmd = new NpgsqlCommand($@"SELECT gs_pk, count FROM stock", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
 					while(r.Read())
 					{
-						int pk_gs = (int)r["pk_gs"];
+						int gsPk = (int)r["gs_pk"];
 						int count = (int)r["count"];
-						Stocks stk = new Stocks(pk_gs, count);
-						res[pk_gs] = stk;
+						Stocks stk = new Stocks(gsPk, count);
+						res[gsPk] = stk;
 					}
 				}
 			}
 			return res;
 		}
-
 		public Dictionary<int, Incoming> GetIncom()
 		{
 			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
@@ -144,7 +133,6 @@ namespace dbProvider
 			}
 			return res;
 		}
-
 		/*
 		public Dictionary<int, Incoming> GetIncomNm()
 		{
@@ -171,7 +159,6 @@ namespace dbProvider
 			return res;
 		}
 		*/
-
 		public void InsertPrvd(string st)
 		{
 //			string str = command DB
@@ -184,7 +171,6 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
-
 		public void InsertCs(string st)
 		{
 			int i;
@@ -193,7 +179,6 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
-
 		public void InsertGoods(string st)
 		{
 			int i;
@@ -202,7 +187,6 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
-
 		public List<string> execCmd(string query)
 		{
 			List<string> st = new List<string>();
@@ -210,20 +194,70 @@ namespace dbProvider
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
-					while(r.Read()) st.Add((string)r["nm"]);
+					while(r.Read())
+						st.Add((string)r["nm"]);
 				}
 			}
 			return st;
 		}
-
 		public void InsertIncom(int goods_pk, int provider_pk, int price, int count)
 		{
+			var tr = _npcon.BeginTransaction();
 			int i;
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
+			try
+			{
+				bool GsExist = false;
+				using(NpgsqlCommand cmd_chek = new($@"SELECT gs_pk, count FROM stock", _npcon))
+				{
+					NpgsqlDataReader r = cmd_chek.ExecuteReader();
+					if(r.Read())
+					{
+						GsExist = true;
+					}
+					r.Dispose();
+				}
+				using(NpgsqlCommand cmd = new($@"INSERT INTO incoming (goods_pk, provider_pk, price, count) 
+VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{count}');", _npcon))
+				{
+					if(cmd.ExecuteNonQuery() != 1)
+					{
+						tr.Rollback();
+						return;
+					}
+				}
+				if(GsExist)
+					using(NpgsqlCommand cmd_upd = new($@"update stock set count=count+{count} 
+where gs_pk={goods_pk};", _npcon, tr))
+					{
+						if(cmd_upd.ExecuteNonQuery() != 1)
+						{
+							tr.Rollback();
+							return;
+						}
+					}
+				else
+					using(NpgsqlCommand cmd_ins = new NpgsqlCommand(@$"insert into stock (gs_pk, count) 
+values({goods_pk}),{count});", _npcon, tr))
+					{
+						if(cmd_ins.ExecuteNonQuery() != 1)
+						{
+							tr.Rollback();
+							return;
+						}
+					}
+				tr.Commit();
+			}
+			catch(Exception e)
+			{
+				tr.Rollback();
+			}
+			/*
+			
+			sing(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
 			VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{count}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
-			}
+			}*/
 		}
 	}
 }
