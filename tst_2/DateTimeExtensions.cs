@@ -1,4 +1,6 @@
-﻿namespace tst_2
+﻿using System;
+
+namespace tst_2
 {
 	public static class Extensions
 	{

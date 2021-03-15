@@ -37,6 +37,8 @@ namespace WH
 		public Dictionary<int, Incoming> incom { get; set; }
 
 		public Dictionary<int, Stocks> stock { get; set; }
+		
+		public Dictionary<int, Leaving> leaving { get; set; }
 
 		public void AddIncom(int goods_pk, int provider_pk, int price, int count)
 		{

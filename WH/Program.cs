@@ -22,15 +22,16 @@ namespace WH
 				{
 					Console.WriteLine(@"------------------
 Выберите пункт меню:
-1.Ввести поставщика; 
-2.Ввести потребителя; 
-3.Все потребители; 
-4.Все поставщики; 
+1.Ввести поставщика;
+2.Все поставщики;
+3.Ввести потребителя; 
+4.Все потребители; 
 5.Ввести товар; 
 6.Все товары; 
 7.Ввести приход; 
 8.Показать приход; 
 9.Показать остаток;
+10.Провести сверку остатков;
 Или нажмите 99 для выхода:");
 					if(!int.TryParse(Console.ReadLine(), out t))
 					{
@@ -52,6 +53,12 @@ namespace WH
 								OurWh.InsertPrvd(st);
 							break;
 						case 2:
+							Console.WriteLine("Все поставщики:\n");
+							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
+								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.nm}");
+							///wh.prvds
+							break;
+						case 3:
 							Console.WriteLine("Ввести потребителя:");
 							st = Console.ReadLine();
 							string check2 = st.Replace(";", "").Replace(":", "");
@@ -60,17 +67,12 @@ namespace WH
 							else
 								OurWh.InsertCs(st);
 							break;
-						case 3:
+						case 4:
 							Console.WriteLine("Все потребители:\n");
 							foreach(KeyValuePair<int, Consumer> consumer in OurWh.cs) 
 								Console.WriteLine($"Номер: {consumer.Key} Название: {consumer.Value.nm}");
 							break;
-						case 4:
-							Console.WriteLine("Все поставщики:\n");
-							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
-								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.nm}");
-							///wh.prvds
-							break;
+						
 						case 5:
 							Console.WriteLine("Ввести товар:");
 							st = Console.ReadLine();
@@ -161,6 +163,12 @@ namespace WH
 							{
 								Console.WriteLine($"Товар: {OurWh.gs[stk.Value.pk_gs].nm} Количество {stk.Value.count}");
 							}
+							break;
+						case 10:
+							Console.WriteLine("Провести сверку остатков:\n");
+							
+							
+							
 							break;
 						case 99:
 							Console.WriteLine("Хочу выйти из ПО.");

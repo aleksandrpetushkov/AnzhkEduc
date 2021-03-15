@@ -1,19 +1,32 @@
-﻿namespace tst_2
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace tst_2
 {
 	internal class Program
 	{
 		private static void Main(string[] args)
 		{
-			Console.WriteLine("Hellowzzzzz");
-			DateTime dt = DateTime.UtcNow;
-			Console.WriteLine(dt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-			//dt = new DateTime(dt.Ticks - (dt.Ticks % TimeSpan.TicksPerSecond));
-			Console.WriteLine((uint)dt.TrimMs().Subtract(dt.AddSeconds(-19)).TotalSeconds);
-			Console.WriteLine(dt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-			Console.WriteLine();
-			// long ln = (-dt.Ticks % TimeSpan.FromSeconds(1).Ticks);
-			// DateTime addTicks = dt.AddTicks(ln);
-			// Console.WriteLine(addTicks.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+			Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}  {Task.CurrentId}");
+			WrtCharA('A');
+			WrtChar('C');
+		}
+		protected static async void WrtCharA(char c)
+		{
+			Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}  {Task.CurrentId}");
+			var t = Task.Run(() => WrtChar(c));
+			Thread.Sleep(300);
+			await t;
+			Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}  {Task.CurrentId}");
+		}
+		private static char WrtChar(char c)
+		{
+			for(int i = 0; i < 10; ++i)
+			{
+				Console.Write($"{c} ");
+				Thread.Sleep(100);
+			}
 		}
 	}
 }
