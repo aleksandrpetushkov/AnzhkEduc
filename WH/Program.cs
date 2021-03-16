@@ -166,6 +166,18 @@ namespace WH
 							break;
 						case 10:
 							Console.WriteLine("Провести сверку остатков:\n");
+							foreach(KeyValuePair<int, Goods> gds in OurWh.gs)
+							{
+								if(OurWh.KH(gds.Key, out int inc, out int stk, out int lev, out int sver))
+								{
+									Console.WriteLine($"Было движение по {gds.Value} Приход: {inc} Остаток: {stk} Расход: {lev} Сверка:{sver}");
+									
+								}
+								else
+								{
+									Console.WriteLine($"Не было движения по {gds.Value}");
+								}
+							}
 							
 							
 							

@@ -31,13 +31,15 @@ namespace WH
 
 		//TODO: Dictionаry - это
 		public Dictionary<int, Provider> prvds { get; protected set; }
+
 		protected internal Dictionary<int, Consumer> cs { get; set; }
+
 		public Dictionary<int, Goods> gs { get; set; }
 
 		public Dictionary<int, Incoming> incom { get; set; }
 
 		public Dictionary<int, Stocks> stock { get; set; }
-		
+
 		public Dictionary<int, Leaving> leaving { get; set; }
 
 		public void AddIncom(int goods_pk, int provider_pk, int price, int count)
@@ -60,6 +62,14 @@ namespace WH
 		{
 			PgP.InsertGoods(st);
 			gs = PgP.GetGoods();
+		}
+		public bool KH(int gds_key, out int inc, out int stk, out int lev, out int sver)
+		{
+			inc = 0;
+			stk = 0;
+			lev = 0;
+			sver = 0;
+			return true;
 		}
 	}
 }
