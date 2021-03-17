@@ -69,6 +69,15 @@ namespace WH
 			stk = 0;
 			lev = 0;
 			sver = 0;
+
+			
+			foreach(KeyValuePair<int,Incoming> inco in incom)
+			{
+				if(gds_key == inco.Value.goods_pk)
+				{
+					inc += inco.Value.count; // тоже самое что и: inc = inc+ inco.Value.count таким образом к инк прибавим  inco.Value.count
+				}
+			}
 			return true;
 		}
 	}

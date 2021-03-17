@@ -200,10 +200,9 @@ namespace dbProvider
 			}
 			return st;
 		}
-		public void InsertIncom(int goods_pk, int provider_pk, int price, int count)
+		public void InsertIncom(int goods_pk, int provider_pk, int price, int new_incom_count)
 		{
-			var tr = _npcon.BeginTransaction();
-			int i;
+			NpgsqlTransaction tr = _npcon.BeginTransaction();
 			try
 			{
 				bool GsExist = false;
@@ -217,7 +216,7 @@ namespace dbProvider
 					r.Dispose();
 				}
 				using(NpgsqlCommand cmd = new($@"INSERT INTO incoming (goods_pk, provider_pk, price, count) 
-VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{count}');", _npcon))
+VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{new_incom_count}');", _npcon))
 				{
 					if(cmd.ExecuteNonQuery() != 1)
 					{
@@ -225,8 +224,8 @@ VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{count}');", _npcon))
 						return;
 					}
 				}
-				if(GsExist)
-					using(NpgsqlCommand cmd_upd = new($@"update stock set count=count+{count} 
+				if(GsExist)																												
+					using(NpgsqlCommand cmd_upd = new($@"update stock set count=count+{new_incom_count} 
 where gs_pk={goods_pk};", _npcon, tr))
 					{
 						if(cmd_upd.ExecuteNonQuery() != 1)
@@ -237,7 +236,7 @@ where gs_pk={goods_pk};", _npcon, tr))
 					}
 				else
 					using(NpgsqlCommand cmd_ins = new NpgsqlCommand(@$"insert into stock (gs_pk, count) 
-values({goods_pk}),{count});", _npcon, tr))
+values({goods_pk}),{new_incom_count});", _npcon, tr))
 					{
 						if(cmd_ins.ExecuteNonQuery() != 1)
 						{
