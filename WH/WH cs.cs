@@ -6,7 +6,7 @@ namespace WH
 	/// <summary>
 	///     Level Logics
 	/// </summary>
-	public class WH
+	public class WH 
 	{
 		protected IDALWH PgP;
 		public WH(string ip, string unm, string pswd, string dbnm, string appnm, int port = 5432)
@@ -26,6 +26,7 @@ namespace WH
 			gs = PgP.GetGoods();
 			incom = PgP.GetIncom();
 			stock = PgP.GetStocks();
+			leaving = PgP.GetLeav();
 			//PgP.InsertIncom(1, 4, 100, 33);
 		}
 
@@ -47,6 +48,14 @@ namespace WH
 			//b logic
 			PgP.InsertIncom(goods_pk, provider_pk, price, count);
 			incom = PgP.GetIncom();
+			stock = PgP.GetStocks();
+		}
+
+		public void InsertLeav(int goods_pk, int consumer_pk, int price, int count)
+		{
+			PgP.InsertLeav(goods_pk, consumer_pk, price, count);
+			leaving = PgP.GetLeav();
+			stock = PgP.GetStocks();
 		}
 		public void InsertPrvd(string st)
 		{
@@ -70,14 +79,48 @@ namespace WH
 			lev = 0;
 			sver = 0;
 
-			
-			foreach(KeyValuePair<int,Incoming> inco in incom)
+			if(incom != null)
 			{
-				if(gds_key == inco.Value.goods_pk)
+				foreach(KeyValuePair<int, Incoming> inco in incom)
 				{
-					inc += inco.Value.count; // тоже самое что и: inc = inc+ inco.Value.count таким образом к инк прибавим  inco.Value.count
+					if(gds_key == inco.Value.goods_pk)
+					{
+						inc += inco.Value.count; // тоже самое что и: inc = inc + inco.Value.count таким образом к инк прибавим  inco.Value.count
+					}
 				}
 			}
+
+			if(stock != null)
+			{
+				foreach(KeyValuePair<int, Stocks> stok in stock)
+				{
+					if(gds_key == stok.Value.pk_gs)
+					{
+						stk = stok.Value.count;
+					}
+				}
+			}
+			else
+			{
+				
+			}
+
+			if(leaving != null)
+			{
+				foreach(KeyValuePair<int, Leaving> leav in leaving)
+				{
+					if(gds_key == leav.Value.goods_pk)
+					{
+						lev += leav.Value.count;
+					}
+				}
+			}
+			else
+			{
+				
+			}
+
+			sver = stk + lev - inc;
 			return true;
 		}
 	}

@@ -82,15 +82,15 @@ namespace lesson2
 			for(int i = 0; i < ls.Count; ++i) ls[i].Print(1);
 			void Валя(string st, int i)
 			{
-				Console.WriteLine($"Я Валя и я получила сообщеие студента: {st}");
+				Console.WriteLine($"Я Валя и я получила сообщение студента: {st}");
 			}
 			void Галя(string st, int i)
 			{
-				Console.WriteLine($"Я Галя и я получила сообщеие студента: {st}");
+				Console.WriteLine($"Я Галя и я получила сообщение студента: {st}");
 			}
 			void Коля(string st, int i)
 			{
-				Console.WriteLine($"Я Коля и я получила сообщеие студента: {st}");
+				Console.WriteLine($"Я Коля и я получил сообщение студента: {st}");
 			}
 			Console.ReadKey();
 		}

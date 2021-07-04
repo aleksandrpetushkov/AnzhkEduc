@@ -22,5 +22,7 @@ namespace dbProvider
 
 		Dictionary<int, Incoming> GetIncom();
 		Dictionary<int, Stocks> GetStocks();
+		Dictionary<int, Leaving> GetLeav();
+		void InsertLeav(int goodsPk, int consumerPk, int price, int count);
 	}
 }

@@ -30,9 +30,13 @@ namespace WH
 6.Все товары; 
 7.Ввести приход; 
 8.Показать приход; 
-9.Показать остаток;
-10.Провести сверку остатков;
+9.Ввести расход;
+10.Показать расход;
+11.Показать остаток;
+12.Провести сверку остатков;
+13.Очистить базу данных. 
 Или нажмите 99 для выхода:");
+					
 					if(!int.TryParse(Console.ReadLine(), out t))
 					{
 						Console.WriteLine("Не корректный ввод");
@@ -148,7 +152,7 @@ namespace WH
 									Console.WriteLine("Вы отказались от ввода");
 								}
 								
-							}
+							} 
 							break;
 						case 8:
 							Console.WriteLine("Показать приход:\n");
@@ -157,31 +161,108 @@ namespace WH
 								Console.WriteLine($"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].nm} Поставщик: {OurWh.prvds[inc.Value.provider_pk].nm} Цена: {inc.Value.price} Количество: {inc.Value.count}");
 							}
 							break;
-						case 9:
+						case 9: 
+							Console.WriteLine("-----------------------\nВсе товары:\n");
+							foreach(KeyValuePair<int, Goods> goods in OurWh.gs) Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+							Console.WriteLine("Все потребители:\n");
+							foreach(KeyValuePair<int, Consumer> cons in OurWh.cs)
+								Console.WriteLine($"Номер: {cons.Key} Название: {cons.Value.nm}");
+							
+							Console.WriteLine(
+								"----------------\nВвести расход: введите через запятую пк товара, пк потребителя, цену товара и количество товара (в кг)");
+							st = Console.ReadLine();
+							string[] mas_lev = st.Split(',', ' ', ';');
+							
+							if(mas_lev.Length != 4)
+							{
+								Console.WriteLine("Не корректный ввод, повторите");
+								continue;
+							}
+							
+							int[] mas_lev_int = new int[4];
+							bool check_lev = false;
+							for(int i = 0; i < mas_lev.Length; i++)
+							{
+								if(!int.TryParse(mas_lev[i], out mas_lev_int[i]))
+								{
+									Console.WriteLine("Не корректный ввод, повторите");
+									check_lev = false;
+									break;
+								}
+								else
+								{
+									check_lev = true;
+								}
+							}
+
+							if(check_lev)
+							{
+								if(OurWh.gs.TryGetValue(mas_lev_int[0], out Goods g) && OurWh.cs.TryGetValue(mas_lev_int[1], out Consumer cons))
+								{
+									Console.WriteLine(
+										$"Вы ввели: Название товара: {OurWh.gs[mas_lev_int[0]].nm} Потребитель: {OurWh.cs[mas_lev_int[1]].nm} " +
+										$"Цена: {mas_lev_int[2]} Количество: {mas_lev_int[3]} \nПодтвердить ввод: 1-да, !1-нет");
+								}
+								else
+								{
+									Console.WriteLine("Вы пытались обратиться к несуществующему объекту");
+									break;
+								}
+
+
+								if(int.TryParse(Console.ReadLine(), out int z) && z == 1)
+								{
+
+									OurWh.InsertLeav(mas_lev_int[0], mas_lev_int[1], mas_lev_int[2], mas_lev_int[3]);
+								}
+								else
+								{
+									Console.WriteLine("Вы отказались от ввода");
+								}
+							}
+							break;
+						case 10: 
+							Console.WriteLine("Показать расход:\n");
+							foreach(KeyValuePair<int, Leaving> lev in OurWh.leaving)
+							{
+								Console.WriteLine($"Номер: {lev.Key} Товар: {OurWh.gs[lev.Value.goods_pk].nm} Потребитель: {OurWh.cs[lev.Value.consumer_pk].nm} Цена: {lev.Value.price} Количество: {lev.Value.count}");
+							}
+							break;
+						case 11:
 							Console.WriteLine("Показать остаток:\n");
 							foreach(KeyValuePair<int, Stocks> stk in OurWh.stock)
 							{
 								Console.WriteLine($"Товар: {OurWh.gs[stk.Value.pk_gs].nm} Количество {stk.Value.count}");
 							}
 							break;
-						case 10:
+						case 12:
 							Console.WriteLine("Провести сверку остатков:\n");
 							foreach(KeyValuePair<int, Goods> gds in OurWh.gs)
 							{
 								if(OurWh.KH(gds.Key, out int inc, out int stk, out int lev, out int sver))
 								{
-									Console.WriteLine($"Было движение по {gds.Value} Приход: {inc} Остаток: {stk} Расход: {lev} Сверка:{sver}");
+									Console.WriteLine($"Было движение по {gds.Value.nm} Приход: {inc} Расход: {lev} Остаток: {stk}  Сверка:{sver}");
 									
 								}
 								else
 								{
-									Console.WriteLine($"Не было движения по {gds.Value}");
+									Console.WriteLine($"Не было движения по {gds.Value.nm}");
 								}
 							}
-							
-							
-							
 							break;
+						case 13:
+							Console.WriteLine("Очистить базу данных? Нажмите 1, если да\n");
+							if(int.TryParse(Console.ReadLine(), out int k) && k == 1)
+							{
+
+							}
+							else
+							{
+								Console.WriteLine("Вы отказались от ввода");
+							}
+							break;
+						
+						
 						case 99:
 							Console.WriteLine("Хочу выйти из ПО.");
 							break;

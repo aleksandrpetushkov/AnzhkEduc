@@ -159,6 +159,27 @@ namespace dbProvider
 			return res;
 		}
 		*/
+		public Dictionary<int, Leaving> GetLeav()
+		{
+			Dictionary<int, Leaving> res = new Dictionary<int, Leaving>();
+			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM leaving", _npcon))
+			{
+				using(NpgsqlDataReader r = cmd.ExecuteReader())
+				{
+					while(r.Read())
+					{
+						int lev_pk = (int)r["pk"];
+						int goods_pk = (int)r["goods_pk"];
+						int consumer_pk = (int)r["consumer_pk"];
+						int price = (int)r["price"];
+						int count = (int)r["count"];
+						Leaving inc = new Leaving(lev_pk, goods_pk, consumer_pk, price, count);
+						res[lev_pk] = inc;
+					}
+				}
+			}
+			return res;
+		}
 		public void InsertPrvd(string st)
 		{
 //			string str = command DB
@@ -206,7 +227,7 @@ namespace dbProvider
 			try
 			{
 				bool GsExist = false;
-				using(NpgsqlCommand cmd_chek = new($@"SELECT gs_pk, count FROM stock", _npcon))
+				using(NpgsqlCommand cmd_chek = new($@"SELECT gs_pk, count FROM stock WHERE gs_pk = {goods_pk}", _npcon))
 				{
 					NpgsqlDataReader r = cmd_chek.ExecuteReader();
 					if(r.Read())
@@ -236,7 +257,7 @@ where gs_pk={goods_pk};", _npcon, tr))
 					}
 				else
 					using(NpgsqlCommand cmd_ins = new NpgsqlCommand(@$"insert into stock (gs_pk, count) 
-values({goods_pk}),{new_incom_count});", _npcon, tr))
+values({goods_pk},{new_incom_count});", _npcon, tr))
 					{
 						if(cmd_ins.ExecuteNonQuery() != 1)
 						{
@@ -250,6 +271,7 @@ values({goods_pk}),{new_incom_count});", _npcon, tr))
 			{
 				tr.Rollback();
 			}
+			
 			/*
 			
 			sing(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
@@ -257,6 +279,63 @@ values({goods_pk}),{new_incom_count});", _npcon, tr))
 			{
 				i = cmd.ExecuteNonQuery();
 			}*/
+			
+		}
+
+		public void InsertLeav(int goods_pk, int consumer_pk, int price, int new_leav_count)
+		{
+			NpgsqlTransaction tr = _npcon.BeginTransaction();
+			try
+			{
+				bool GsExist = false;
+				using(NpgsqlCommand cmd_check = new NpgsqlCommand($@"SELECT gs_pk, count FROM stock WHERE gs_pk = {goods_pk}", _npcon))
+				{
+					NpgsqlDataReader r = cmd_check.ExecuteReader();
+					if(r.Read())
+					{
+						GsExist = true;
+					}
+					r.Dispose();
+				}
+				using(NpgsqlCommand cmd = new NpgsqlCommand(@$"INSERT INTO leaving (goods_pk, consumer_pk, price, count)
+VALUES ('{goods_pk}','{consumer_pk}', '{price}', '{new_leav_count}');", _npcon))
+				{
+					if(cmd.ExecuteNonQuery() != 1)
+					{
+						tr.Rollback();
+						return;
+					}
+				}
+				if(GsExist)
+				{
+					using(NpgsqlCommand cmd_upd = new NpgsqlCommand($@"UPDATE stock SET count = count-{new_leav_count}
+WHERE gs_pk = {goods_pk};", _npcon, tr))
+					{
+						if(cmd_upd.ExecuteNonQuery() != 1)
+						{
+							tr.Rollback();
+							return;
+						}
+					}
+				}
+				else
+				{
+					using(NpgsqlCommand cmd_ins = new NpgsqlCommand($@"INSERT INTO stock (gs_pk, count)
+VALUES ({goods_pk}, {new_leav_count});", _npcon, tr))
+					{
+						if(cmd_ins.ExecuteNonQuery() != 1)
+						{
+							tr.Rollback();
+							return;
+						}
+					}
+				}
+				tr.Commit();
+			}
+			catch(Exception e)
+			{
+				tr.Rollback();
+			}
 		}
 	}
 }
