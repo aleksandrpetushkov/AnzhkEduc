@@ -19,13 +19,12 @@ namespace ViewModels
 
 		protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string PropertyName = null)
 		{
-			if(Equals(field, value)) return false;
+			if(Equals(field, value))
+				return false;
 			field = value;
 			OnPropertyChanged(PropertyName);
 			return true;
 		}
-
-		
 
 		//~ViewModel()
 		//{
@@ -38,9 +37,11 @@ namespace ViewModels
 		}
 
 		private bool _Disposed;
+
 		protected virtual void Dispose(bool Disposing)
 		{
-			if(!Disposing || _Disposed) return;
+			if(!Disposing || _Disposed)
+				return;
 			_Disposed = true;
 			// Освобождение управляемых ресурсов
 		}

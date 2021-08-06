@@ -21,10 +21,10 @@ namespace lesson2
 
 		private static void Main(string[] args)
 		{
-			StreamReader ps = new StreamReader(@"C:\Users\Sth\Desktop\peoples.txt");
+			StreamReader ps = new(@"C:\Users\Sth\Desktop\peoples.txt");
 			Student lol;
-			List<Student> ls = new List<Student>();
-			Dictionary<string, Student> dc = new Dictionary<string, Student>();
+			List<Student> ls = new();
+			Dictionary<string, Student> dc = new();
 			while(!ps.EndOfStream)
 			{
 				//Console.WriteLine(ps.ReadLine().Trim(' '));
@@ -53,7 +53,8 @@ namespace lesson2
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine($"Мы пытались загрузизить строку {st_reader} и чота мы эксепшн славили вот его мессадж: {e.Message}");
+					Console.WriteLine(
+						$"Мы пытались загрузизить строку {st_reader} и чота мы эксепшн славили вот его мессадж: {e.Message}");
 				}
 			}
 			/*
@@ -79,7 +80,8 @@ namespace lesson2
 				ls[i].prt += Коля;
 			}
 			Console.WriteLine("\r\n\r\nВыводим студентов после отписки...");
-			for(int i = 0; i < ls.Count; ++i) ls[i].Print(1);
+			for(int i = 0; i < ls.Count; ++i)
+				ls[i].Print(1);
 			void Валя(string st, int i)
 			{
 				Console.WriteLine($"Я Валя и я получила сообщение студента: {st}");

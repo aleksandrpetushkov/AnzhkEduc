@@ -16,7 +16,6 @@ namespace WH_WPF.Cmd
 		}
 
 		public abstract bool CanExecute(object parameter);
-
 		public abstract void Execute(object parameter);
 	}
 }

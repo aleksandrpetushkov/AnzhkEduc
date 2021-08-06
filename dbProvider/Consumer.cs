@@ -1,6 +1,6 @@
 ﻿namespace dbProvider
 {
-	public class Consumer:IPkName
+	public class Consumer: IPkName
 	{
 		public Consumer(int _pk, string _nm)
 		{
@@ -8,7 +8,7 @@
 			Name = _nm;
 		}
 
-		public int Pk { get; }
-		public string Name { get; }
+		public int Pk{ get; }
+		public string Name{ get; }
 	}
 }

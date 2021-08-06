@@ -4,7 +4,6 @@
 	{
 		public int pk_gs;
 		public int count;
-	
 
 		public Stocks(int _pk_gs, int _count)
 		{

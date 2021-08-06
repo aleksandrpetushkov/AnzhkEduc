@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 
 namespace tst_02
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			Console.WriteLine(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
-			
-			
 			string[] stArr = { "111", "2222", "3333" };
 			//string[] stArr1 = new string[5] 
 			Array.Resize(ref stArr, 2);
 			foreach(string stk in stArr)
-			{
 				Console.Write(stk);
-			}
 			Console.ReadKey();
 			string st = string.Empty;
 			string[] k = st.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);

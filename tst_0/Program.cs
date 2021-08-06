@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 
 //using System.Web.Routing;
-
 namespace tst_0
 {
 	internal static class Program
 	{
 		private static void Main(string[] args)
 		{
-			Animal Ang = new Animal("Black", 22, "Ang", "Angelica");
-			Animal Alk = new Animal("White", 35, "Volk", "Kuzmich");
-			Animal Cat = new Animal("Black", 22, "Cat", "Cisic");
-			List<Animal> List_anml = new List<Animal>();
+			Animal Ang = new("Black", 22, "Ang", "Angelica");
+			Animal Alk = new("White", 35, "Volk", "Kuzmich");
+			Animal Cat = new("Black", 22, "Cat", "Cisic");
+			List<Animal> List_anml = new();
 			List_anml.Add(Ang);
 			List_anml.Add(Alk);
 			List_anml.Add(Cat);
-			Dictionary<string, Animal> ds = new Dictionary<string, Animal>();
+			Dictionary<string, Animal> ds = new();
 			ds[Cat.Name] = Cat;
 			ds[Ang.Name] = Ang;
 			ds[Alk.Name] = Alk;

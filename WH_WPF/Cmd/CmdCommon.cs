@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WH_WPF.Cmd
 {
-	class CmdCommon: ACmd
+	internal class CmdCommon: ACmd
 	{
 		private readonly Action<object> _Execute;
 		private readonly Func<object, bool> _CanExecute;
@@ -21,7 +21,6 @@ namespace WH_WPF.Cmd
 		{
 			return _CanExecute?.Invoke(parameter) ?? true;
 		}
-
 
 		public override void Execute(object parameter)
 		{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LibPers
 {
-	public class Worker : People
+	public class Worker: People
 	{
 		protected bool Illnes = false;
 		public uint Selary;

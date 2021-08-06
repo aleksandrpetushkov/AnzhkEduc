@@ -8,7 +8,7 @@
 			nm = _nm;
 		}
 
-		public int pk { get; }
-		public string nm { get; }
+		public int pk{ get; }
+		public string nm{ get; }
 	}
 }

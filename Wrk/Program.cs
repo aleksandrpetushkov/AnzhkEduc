@@ -25,7 +25,8 @@ namespace Wrk
 			wrk = new Worker(uint.Parse(st[2]), st[0], st[1], 3);
 			while(true)
 			{
-				Console.Write("--------------------------\nMenu:\n1. Execute work.\n2. Calc work and exit.\nEnter why do you want: ");
+				Console.Write(
+					"--------------------------\nMenu:\n1. Execute work.\n2. Calc work and exit.\nEnter why do you want: ");
 				int m = 0;
 				try
 				{

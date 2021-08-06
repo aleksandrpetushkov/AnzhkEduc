@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ViewModels;
+
 namespace WH_WPF
 {
 	/// <summary>
@@ -25,15 +26,11 @@ namespace WH_WPF
 			InitializeComponent();
 		}
 
-				
-
-
-
-				/*
-		private void UIWindow_Loaded(object sender, RoutedEventArgs e)
-		{
-		DataContext = new MainVM();
-		}
-		*/
-		}
+		/*
+private void UIWindow_Loaded(object sender, RoutedEventArgs e)
+{
+DataContext = new MainVM();
+}
+*/
+	}
 }

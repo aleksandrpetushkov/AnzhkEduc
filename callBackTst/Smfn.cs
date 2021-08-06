@@ -16,7 +16,10 @@ namespace callBackTst
 			lst = inptLst;
 			//One();
 		}
-		public Smfn(){}
+
+		public Smfn()
+		{
+		}
 
 		public void One()
 		{
@@ -49,11 +52,13 @@ namespace callBackTst
 			lst.Add(i);
 			TwhoCllBk(i, lst, Thre);
 		}
+
 		public static void Twho(int[] i, List<int[]> lst)
 		{
 			lst.Add(i);
 			Thre(i, lst);
 		}
+
 		public static void TwhoCllBk(int[] i, List<int[]> lst, Action<int[], List<int[]>> dow)
 		{
 			lst.Add(i);

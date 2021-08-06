@@ -4,7 +4,7 @@ namespace AngWork
 {
 	public delegate void Printing(string fotto);
 
-	public class Student : AAlive
+	public class Student: AAlive
 	{
 		//public - идентификатор доступа
 		public string Name;

@@ -17,12 +17,12 @@ namespace dbProvider
 
 		public PgProvider(string ip, string unm, string pswd, string dbnm, string apnm, int port = 5432)
 		{
-			NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder
+			NpgsqlConnectionStringBuilder sb = new()
 			{
 				Password = pswd, Port = port, Database = dbnm, Host = ip, Pooling = false, CommandTimeout = 360
 				, ApplicationName = apnm, Username = unm
 			};
-			NpgsqlConnectionStringBuilder sb1 = new NpgsqlConnectionStringBuilder();
+			NpgsqlConnectionStringBuilder sb1 = new();
 			sb1.Password = pswd;
 			sb1.Port = port;
 			sb1.Database = dbnm;
@@ -45,8 +45,8 @@ namespace dbProvider
 
 		public Dictionary<int, Provider> GetPrvds()
 		{
-			Dictionary<int, Provider> res = new Dictionary<int, Provider>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM provider;", _npcon))
+			Dictionary<int, Provider> res = new();
+			using(NpgsqlCommand cmd = new(@"SELECT * FROM provider;", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -54,7 +54,7 @@ namespace dbProvider
 					{
 						int pr_pk = (int)r["pk"];
 						string pr_nm = (string)r["nm"];
-						Provider p = new Provider(pr_pk, pr_nm);
+						Provider p = new(pr_pk, pr_nm);
 						res[pr_pk] = p;
 					}
 				}
@@ -64,8 +64,8 @@ namespace dbProvider
 
 		public Dictionary<int, Consumer> GetConsumers()
 		{
-			Dictionary<int, Consumer> res = new Dictionary<int, Consumer>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM consumer", _npcon))
+			Dictionary<int, Consumer> res = new();
+			using(NpgsqlCommand cmd = new(@"SELECT * FROM consumer", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -73,7 +73,7 @@ namespace dbProvider
 					{
 						int cs_pk = (int)r["pk"];
 						string cs_nm = (string)r["nm"];
-						Consumer cns = new Consumer(cs_pk, cs_nm);
+						Consumer cns = new(cs_pk, cs_nm);
 						res[cs_pk] = cns;
 					}
 				}
@@ -83,8 +83,8 @@ namespace dbProvider
 
 		public Dictionary<int, Goods> GetGoods()
 		{
-			Dictionary<int, Goods> res = new Dictionary<int, Goods>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM goods", _npcon))
+			Dictionary<int, Goods> res = new();
+			using(NpgsqlCommand cmd = new(@"SELECT * FROM goods", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -92,7 +92,7 @@ namespace dbProvider
 					{
 						int gs_pk = (int)r["pk"];
 						string gs_nm = (string)r["nm"];
-						Goods gds = new Goods(gs_pk, gs_nm);
+						Goods gds = new(gs_pk, gs_nm);
 						res[gs_pk] = gds;
 					}
 				}
@@ -102,8 +102,8 @@ namespace dbProvider
 
 		public Dictionary<int, Stocks> GetStocks()
 		{
-			Dictionary<int, Stocks> res = new Dictionary<int, Stocks>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"SELECT gs_pk, count FROM stock", _npcon))
+			Dictionary<int, Stocks> res = new();
+			using(NpgsqlCommand cmd = new($@"SELECT gs_pk, count FROM stock", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -111,7 +111,7 @@ namespace dbProvider
 					{
 						int gsPk = (int)r["gs_pk"];
 						int count = (int)r["count"];
-						Stocks stk = new Stocks(gsPk, count);
+						Stocks stk = new(gsPk, count);
 						res[gsPk] = stk;
 					}
 				}
@@ -121,8 +121,8 @@ namespace dbProvider
 
 		public Dictionary<int, Incoming> GetIncom()
 		{
-			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM incoming", _npcon))
+			Dictionary<int, Incoming> res = new();
+			using(NpgsqlCommand cmd = new(@"SELECT * FROM incoming", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -133,7 +133,7 @@ namespace dbProvider
 						int provider_pk = (int)r["provider_pk"];
 						int price = (int)r["price"];
 						int count = (int)r["count"];
-						Incoming inc = new Incoming(inc_pk, goods_pk, provider_pk, price, count);
+						Incoming inc = new(inc_pk, goods_pk, provider_pk, price, count);
 						res[inc_pk] = inc;
 					}
 				}
@@ -169,8 +169,8 @@ namespace dbProvider
 		*/
 		public Dictionary<int, Leaving> GetLeav()
 		{
-			Dictionary<int, Leaving> res = new Dictionary<int, Leaving>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(@"SELECT * FROM leaving", _npcon))
+			Dictionary<int, Leaving> res = new();
+			using(NpgsqlCommand cmd = new(@"SELECT * FROM leaving", _npcon))
 			{
 				using(NpgsqlDataReader r = cmd.ExecuteReader())
 				{
@@ -181,13 +181,14 @@ namespace dbProvider
 						int consumer_pk = (int)r["consumer_pk"];
 						int price = (int)r["price"];
 						int count = (int)r["count"];
-						Leaving inc = new Leaving(lev_pk, goods_pk, consumer_pk, price, count);
+						Leaving inc = new(lev_pk, goods_pk, consumer_pk, price, count);
 						res[lev_pk] = inc;
 					}
 				}
 			}
 			return res;
 		}
+
 		public void InsertPrvd(string st)
 		{
 //			string str = command DB
@@ -195,7 +196,7 @@ namespace dbProvider
 //			st.Replace("Ситилинк",st);
 //			Console.WriteLine("Мы пытались загрузить строку {st_reader} и чота мы эксепшн словили вот его мессадж: {e.Message}");
 			int i;
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO provider (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new($@"INSERT INTO provider (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -204,7 +205,7 @@ namespace dbProvider
 		public void InsertCs(string st)
 		{
 			int i;
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO consumer (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new($@"INSERT INTO consumer (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -213,7 +214,7 @@ namespace dbProvider
 		public void InsertGoods(string st)
 		{
 			int i;
-			using(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO goods (nm) VALUES ('{st}')", _npcon))
+			using(NpgsqlCommand cmd = new($@"INSERT INTO goods (nm) VALUES ('{st}')", _npcon))
 			{
 				i = cmd.ExecuteNonQuery();
 			}
@@ -221,8 +222,8 @@ namespace dbProvider
 
 		public List<string> execCmd(string query)
 		{
-			List<string> st = new List<string>();
-			using NpgsqlCommand cmd = new NpgsqlCommand(query, _npcon);
+			List<string> st = new();
+			using NpgsqlCommand cmd = new(query, _npcon);
 			using NpgsqlDataReader r = cmd.ExecuteReader();
 			while(r.Read())
 				st.Add((string)r["nm"]);
@@ -239,9 +240,7 @@ namespace dbProvider
 				{
 					NpgsqlDataReader r = cmd_chek.ExecuteReader();
 					if(r.Read())
-					{
 						GsExist = true;
-					}
 					r.Dispose();
 				}
 				using(NpgsqlCommand cmd = new($@"INSERT INTO incoming (goods_pk, provider_pk, price, count) 
@@ -264,7 +263,7 @@ where gs_pk={goods_pk};", _npcon, tr))
 						}
 					}
 				else
-					using(NpgsqlCommand cmd_ins = new NpgsqlCommand(@$"insert into stock (gs_pk, count) 
+					using(NpgsqlCommand cmd_ins = new(@$"insert into stock (gs_pk, count) 
 values({goods_pk},{new_incom_count});", _npcon, tr))
 					{
 						if(cmd_ins.ExecuteNonQuery() != 1)
@@ -279,7 +278,6 @@ values({goods_pk},{new_incom_count});", _npcon, tr))
 			{
 				tr.Rollback();
 			}
-			
 			/*
 			
 			sing(NpgsqlCommand cmd = new NpgsqlCommand($@"INSERT INTO incoming (goods_pk, provider_pk, price, count)
@@ -287,7 +285,6 @@ values({goods_pk},{new_incom_count});", _npcon, tr))
 			{
 				i = cmd.ExecuteNonQuery();
 			}*/
-			
 		}
 
 		public void InsertLeav(int goods_pk, int consumer_pk, int price, int new_leav_count)
@@ -296,16 +293,14 @@ values({goods_pk},{new_incom_count});", _npcon, tr))
 			try
 			{
 				bool GsExist = false;
-				using(NpgsqlCommand cmd_check = new NpgsqlCommand($@"SELECT gs_pk, count FROM stock WHERE gs_pk = {goods_pk}", _npcon))
+				using(NpgsqlCommand cmd_check = new($@"SELECT gs_pk, count FROM stock WHERE gs_pk = {goods_pk}", _npcon))
 				{
 					NpgsqlDataReader r = cmd_check.ExecuteReader();
 					if(r.Read())
-					{
 						GsExist = true;
-					}
 					r.Dispose();
 				}
-				using(NpgsqlCommand cmd = new NpgsqlCommand(@$"INSERT INTO leaving (goods_pk, consumer_pk, price, count)
+				using(NpgsqlCommand cmd = new(@$"INSERT INTO leaving (goods_pk, consumer_pk, price, count)
 VALUES ('{goods_pk}','{consumer_pk}', '{price}', '{new_leav_count}');", _npcon))
 				{
 					if(cmd.ExecuteNonQuery() != 1)
@@ -315,8 +310,7 @@ VALUES ('{goods_pk}','{consumer_pk}', '{price}', '{new_leav_count}');", _npcon))
 					}
 				}
 				if(GsExist)
-				{
-					using(NpgsqlCommand cmd_upd = new NpgsqlCommand($@"UPDATE stock SET count = count-{new_leav_count}
+					using(NpgsqlCommand cmd_upd = new($@"UPDATE stock SET count = count-{new_leav_count}
 WHERE gs_pk = {goods_pk};", _npcon, tr))
 					{
 						if(cmd_upd.ExecuteNonQuery() != 1)
@@ -325,10 +319,8 @@ WHERE gs_pk = {goods_pk};", _npcon, tr))
 							return;
 						}
 					}
-				}
 				else
-				{
-					using(NpgsqlCommand cmd_ins = new NpgsqlCommand($@"INSERT INTO stock (gs_pk, count)
+					using(NpgsqlCommand cmd_ins = new($@"INSERT INTO stock (gs_pk, count)
 VALUES ({goods_pk}, {new_leav_count});", _npcon, tr))
 					{
 						if(cmd_ins.ExecuteNonQuery() != 1)
@@ -337,7 +329,6 @@ VALUES ({goods_pk}, {new_leav_count});", _npcon, tr))
 							return;
 						}
 					}
-				}
 				tr.Commit();
 			}
 			catch(Exception e)

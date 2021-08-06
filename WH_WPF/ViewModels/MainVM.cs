@@ -19,21 +19,18 @@ namespace ViewModels
 
 		public MainVM()
 		{
-			wh = new("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
-			ViewRecordsPrvd = new(wh.prvds.Select(vl => vl.Value).ToList());
+			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
+			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 			NameColumn = "Providers";
 			AddPrvd = new CmdCommon(OnAddPrvd, CanExAddPrvd);
 		}
 
-		string _inpustr;
+		private string _inpustr;
 
 		public string InptStr
 		{
 			get => _inpustr;
-			set
-			{
-				Set(ref _inpustr, value);
-			}
+			set => Set(ref _inpustr, value);
 		}
 
 		public bool CanExAddPrvd(object p)
@@ -44,7 +41,7 @@ namespace ViewModels
 		public void OnAddPrvd(object p)
 		{
 			wh.InsertPrvd(_inpustr);
-			ViewRecordsPrvd = new(wh.prvds.Select(vl => vl.Value).ToList());
+			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 		}
 
 		#region Title
@@ -74,7 +71,7 @@ namespace ViewModels
 			set => Set(ref _view_record, value);
 		}
 
-		private ListCollectionView _view_record = default(ListCollectionView);
+		private ListCollectionView _view_record = default;
 		private string _name = "Name";
 
 		public string NameColumn

@@ -15,32 +15,30 @@ using HttpClt;
 
 namespace httpSrv
 {
-	class Program
+	internal class Program
 	{
-		static byte[] st;
-		static JsonSerializerSettings DfltSttngs = new JsonSerializerSettings { Formatting = Formatting.Indented };
-		static JsonSerializer seril = JsonSerializer.CreateDefault(DfltSttngs);
+		private static byte[] st;
+		private static JsonSerializerSettings DfltSttngs = new() { Formatting = Formatting.Indented };
+		private static JsonSerializer seril = JsonSerializer.CreateDefault(DfltSttngs);
 
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
-			HttpListener lst = new HttpListener();
+			HttpListener lst = new();
 			lst.Prefixes.Add("http://127.0.0.1:1888/");
 			lst.Start();
 			while(true)
 			{
 				//Task<HttpListenerContext> ctnxA;// = lst.GetContext();
-				var context = lst.GetContext();
+				HttpListenerContext context = lst.GetContext();
 				string[] stArr = context.Request.Url.AbsolutePath.Split("/", StringSplitOptions.RemoveEmptyEntries);
 				if(stArr.Length == 1)
 				{
 					if(stArr[0] == "favicon.ico")
-					{
 						using(HttpListenerResponse rp = context.Response)
 						{
 							context.Response.StatusCode = 404;
 							context.Response.Close();
 						}
-					}
 					continue;
 				}
 				//wrtFile(context);
@@ -62,7 +60,7 @@ namespace httpSrv
 			context.Response.OutputStream.Close();
 		}
 
-		static async void Jsns(HttpListenerContext cntxt)
+		private static async void Jsns(HttpListenerContext cntxt)
 		{
 			bool gz = true;
 			//cntxt.Response.Close();
@@ -71,19 +69,17 @@ namespace httpSrv
 			cntxt.Response.AddHeader("Content-type", "application/json; charset=utf-8");
 			cntxt.Response.AddHeader("Access-Control-Allow-Origin", "*");
 			cntxt.Response.AddHeader("Content-Encoding", "gzip");
-			using var memstr = new MemoryStream();
-			using var memCopy = new MemoryStream();
-			using var memCopyfrmArr = new MemoryStream();
-			using var kk =
-				new JsonTextWriter(new StreamWriter(new GZipStream(memstr, CompressionLevel.Optimal, false), Encoding.UTF8))
+			using MemoryStream memstr = new();
+			using MemoryStream memCopy = new();
+			using MemoryStream memCopyfrmArr = new();
+			using JsonTextWriter kk =
+				new(new StreamWriter(new GZipStream(memstr, CompressionLevel.Optimal, false), Encoding.UTF8))
 				{
 					Formatting = seril.Formatting
 				};
 			kk.WriteStartArray();
 			for(ushort i = 0; i < 10000; ++i)
-			{
 				seril.Serialize(kk, new EnttSmpl(i, "Ote" + i, "ВТОРОЙ_ПОШЁЛ" + i));
-			}
 			kk.WriteEndArray();
 			kk.Flush();
 			st = memstr.ToArray();
@@ -94,10 +90,8 @@ namespace httpSrv
 				using(streamReader = new StreamReader(memCopy2, Encoding.UTF8))
 				{
 					while(!streamReader.EndOfStream)
-					{
 						//Console.WriteLine("22222222222222");
 						Console.WriteLine(streamReader.ReadLine());
-					}
 				}
 			}
 			cntxt.Response.OutputStream.Write(st);
@@ -132,30 +126,32 @@ namespace httpSrv
 			int z = 0;
 		}
 
-		static byte[] DeCompres(byte[] deCmprs)
+		private static byte[] DeCompres(byte[] deCmprs)
 		{
-			using var MemOut = new MemoryStream();
-			using var memstrCmprs = new MemoryStream(deCmprs);
-			using var BigPack = new GZipStream(memstrCmprs, CompressionMode.Decompress);
+			using MemoryStream MemOut = new();
+			using MemoryStream memstrCmprs = new(deCmprs);
+			using GZipStream BigPack = new(memstrCmprs, CompressionMode.Decompress);
 			BigPack.CopyTo(MemOut);
 			byte[] DeCmprs = MemOut.ToArray();
 			return DeCmprs;
 		}
 
 		//*
-		static byte[] Compres(byte[] cmprs)
+		private static byte[] Compres(byte[] cmprs)
 		{
 			//var bytes = Encoding.UTF8.GetBytes(str);
-			using(var msi = new MemoryStream(cmprs))
-				using(var mso = new MemoryStream())
+			using(MemoryStream msi = new(cmprs))
+			{
+				using(MemoryStream mso = new())
 				{
-					using(var gs = new GZipStream(mso, CompressionMode.Compress))
+					using(GZipStream gs = new(mso, CompressionMode.Compress))
 					{
 						msi.CopyTo(gs);
 						//CopyTo(msi, gs);
 					}
 					return mso.ToArray();
 				}
+			}
 		}
 		//*/
 	}

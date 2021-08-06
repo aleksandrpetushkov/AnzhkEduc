@@ -2,13 +2,13 @@
 {
 	public class Incoming
 	{
-		public int pk { get; }
-		public int goods_pk { get; }
-		public int provider_pk { get; }
+		public int pk{ get; }
+		public int goods_pk{ get; }
+		public int provider_pk{ get; }
 		// public string p_nm { get; }
 		// public string g_nm { get; }
-		public int price { get; }
-		public int count { get; }
+		public int price{ get; }
+		public int count{ get; }
 
 		public Incoming(int _pk, int _goods_pk, int _provider_pk, int _price, int _count)
 		{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace dbProvider
 {
-	public class OthPrvd 
+	public class OthPrvd
 	{
 		public Dictionary<int, Provider> GetPrvds()
 		{

@@ -11,11 +11,11 @@ using Newtonsoft.Json;
 
 namespace HttpClt
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
-			HttpClient clt = new HttpClient();
+			HttpClient clt = new();
 			for(int k = 0; k < 21000; ++k)
 			{
 				var res = clt.GetAsync("http://127.0.0.1:1888").Result;
@@ -50,14 +50,14 @@ namespace HttpClt
 				ss.Content.ReadAsStreamAsync();
 				gz = GzipContext(ss.Content.Headers.ContentEncoding);
 				Console.WriteLine(srt.Length);
-				using StreamReader reader = new(gz ? new GZipStream(srt, CompressionMode.Decompress): srt, Encoding.UTF8);
+				using StreamReader reader = new(gz ? new GZipStream(srt, CompressionMode.Decompress) : srt, Encoding.UTF8);
 				Console.WriteLine();
 				//string st = reader.ReadToEnd();
-				using StreamWriter f1 = new StreamWriter($@"d:\tmp_out\fs_{k}.txt", false, Encoding.UTF8);
+				using StreamWriter f1 = new($@"d:\tmp_out\fs_{k}.txt", false, Encoding.UTF8);
 				//using StreamWriter f2 = new StreamWriter(clt,)
 				while(!reader.EndOfStream)
 				{
-					var sr = reader.ReadLine();
+					string? sr = reader.ReadLine();
 					//onsole.Write(sr);
 					f1.WriteLine(sr);
 					Thread.Sleep(100);

@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <Platforms>AnyCPU;x64</Platforms>
-    </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
+	</ItemGroup>
 
 </Project>

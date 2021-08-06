@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace dbProvider
 {
-
-	interface IPkName
+	internal interface IPkName
 	{
-		int Pk { get; }
-		string Name { get; }
+		int Pk{ get; }
+		string Name{ get; }
 	}
 }
-
-

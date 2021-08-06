@@ -15,15 +15,12 @@ namespace callBackTstCore
 			{
 				int[] b = new int[10000];
 				for(int j = 0; j < 10000; j++)
-				{
 					b[j] = j;
-				}
 				lst.Add(b);
 			}
 			List<int[]> kk = new(1000000);
 			List<int[]> nw = new(1000000);
 			List<Smfn> zz = new(1000000);
-			
 			Stopwatch sw = new();
 			sw.Start();
 			foreach(int[] elm in lst)
@@ -33,7 +30,6 @@ namespace callBackTstCore
 			sw.Stop();
 			CrtInstr = sw.ElapsedMilliseconds;
 			//
-			
 			sw.Restart();
 			foreach(int[] elm in lst)
 			{
@@ -42,53 +38,40 @@ namespace callBackTstCore
 			}
 			sw.Stop();
 			CrtInstrAdd = sw.ElapsedMilliseconds;
-			
-			
 			sw.Restart();
 			foreach(Smfn smf in zz)
-			{
 				smf.One();
-			}
 			sw.Stop();
 			ClMth = sw.ElapsedMilliseconds;
 			//*/
 			//* b test
 			sw.Restart();
 			foreach(int[] arr in lst)
-			{
 				for(int q = 0; q < arr.Length; ++q)
 					arr[q] = 10;
-			}
 			sw.Stop();
 			bt = sw.ElapsedMilliseconds;
 
 			//* ct
 			sw.Restart();
 			foreach(int[] arr in lst)
-			{
 				Arr(arr);
-			}
 			sw.Stop();
 			ct = sw.ElapsedMilliseconds;
 
 			//* dt
 			sw.Restart();
 			foreach(int[] arr in lst)
-			{
 				ArrD(arr, ArrInt);
-			}
 			sw.Stop();
 			dt = sw.ElapsedMilliseconds;
 
 			//* de
 			sw.Restart();
 			foreach(int[] arr in lst)
-			{
 				ArrE(arr, ArrD);
-			}
 			sw.Stop();
 			et = sw.ElapsedMilliseconds;
-
 			/*/tw
 			sw.Restart();
 			foreach(int[] elm in lst)

@@ -2,7 +2,7 @@
 
 namespace AngWork
 {
-	public class Animal : AAlive
+	public class Animal: AAlive
 	{
 		public string Kind;
 		public string Color;
@@ -18,7 +18,8 @@ namespace AngWork
 
 		public override void Print(int count)
 		{
-			for(int i = 0; i < count; ++i) Console.WriteLine("Вид: " + Kind + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
+			for(int i = 0; i < count; ++i)
+				Console.WriteLine("Вид: " + Kind + "," + "Цвет: " + Color + "," + "Возраст: " + Age);
 		}
 
 		/*

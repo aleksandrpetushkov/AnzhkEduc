@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <Platforms>AnyCPU;x64</Platforms>
-    </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\dbProvider\dbProvider.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\dbProvider\dbProvider.csproj"/>
+	</ItemGroup>
 
 </Project>

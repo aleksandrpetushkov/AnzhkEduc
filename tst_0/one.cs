@@ -9,8 +9,8 @@
 		{
 			if(b)
 				oi = i;
-			else
-				if(!b) ok = i;
+			else if(!b)
+				ok = i;
 		}
 	}
 }

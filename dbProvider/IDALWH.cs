@@ -10,7 +10,7 @@ namespace dbProvider
 		void InsertCs(string st);
 		void InsertGoods(string st);
 		Dictionary<int, Goods> GetGoods();
-		
+
 		/// <summary>
 		/// 
 		/// </summary>

@@ -2,7 +2,7 @@
 
 namespace LibPers
 {
-	internal class Student : People
+	internal class Student: People
 	{
 		public uint Grant;
 		public int Marks;

@@ -12,28 +12,23 @@ namespace _00
 		{
 			string[] st;
 			int x = 0;
-			List<int> ls = new ();
-			List<EnmInt> le = new List<EnmInt>();
+			List<int> ls = new();
+			List<EnmInt> le = new();
 			le.Add(EnmInt.One);
 			le.Add(EnmInt.Two);
 			le.Add(EnmInt.fork);
 			Console.WriteLine(le.ToStringk());
 			foreach(EnmInt enmInt in le)
-			{
 				Console.WriteLine(enmInt);
-			}
 			ls.Add(1);
 			ls.Add(2);
 			ls.Add(3);
 			List<int> lk = new();
 			lk.Add(5);
 			lk.Add(6);
-			var zz = lk.Intersect(ls);
+			IEnumerable<int> zz = lk.Intersect(ls);
 			foreach(int i in zz)
-			{
 				Console.WriteLine(i);
-			}
-			
 			while(x < 5)
 			{
 				Console.WriteLine("Введите цифры:");

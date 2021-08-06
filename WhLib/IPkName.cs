@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WhLib
 {
-	interface IPkName
+	internal interface IPkName
 	{
-		int Pk { get; set; }
-		string Name { get; set; }
+		int Pk{ get; set; }
+		string Name{ get; set; }
 	}
 }
