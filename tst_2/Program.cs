@@ -8,6 +8,11 @@ namespace tst_2
 	{
 		private static void Main(string[] args)
 		{
+			string st = "";
+			if(st == string.Empty)
+			{
+				Console.WriteLine();
+			}
 			Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}  {Task.CurrentId}");
 			WrtCharA('A');
 			WrtChar('C');
@@ -26,7 +31,8 @@ namespace tst_2
 			{
 				Console.Write($"{c} ");
 				Thread.Sleep(100);
-			}
+				}
+			return c;
 		}
 	}
 }

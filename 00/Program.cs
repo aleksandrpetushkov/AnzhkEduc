@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 
 namespace _00
 {
@@ -8,6 +12,28 @@ namespace _00
 		{
 			string[] st;
 			int x = 0;
+			List<int> ls = new ();
+			List<EnmInt> le = new List<EnmInt>();
+			le.Add(EnmInt.One);
+			le.Add(EnmInt.Two);
+			le.Add(EnmInt.fork);
+			Console.WriteLine(le.ToStringk());
+			foreach(EnmInt enmInt in le)
+			{
+				Console.WriteLine(enmInt);
+			}
+			ls.Add(1);
+			ls.Add(2);
+			ls.Add(3);
+			List<int> lk = new();
+			lk.Add(5);
+			lk.Add(6);
+			var zz = lk.Intersect(ls);
+			foreach(int i in zz)
+			{
+				Console.WriteLine(i);
+			}
+			
 			while(x < 5)
 			{
 				Console.WriteLine("Введите цифры:");
@@ -32,10 +58,12 @@ namespace _00
 		{
 			if(k > a)
 			{
-				if(k > s) return k;
+				if(k > s)
+					return k;
 				return s;
 			}
-			if(a > s) return a;
+			if(a > s)
+				return a;
 			return s;
 		}
 
@@ -43,10 +71,12 @@ namespace _00
 		{
 			if(k < a)
 			{
-				if(k < s) return k;
+				if(k < s)
+					return k;
 				return s;
 			}
-			if(a < s) return a;
+			if(a < s)
+				return a;
 			return s;
 		}
 	}

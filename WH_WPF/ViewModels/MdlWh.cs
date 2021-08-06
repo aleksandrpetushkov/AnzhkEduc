@@ -1,15 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using dbProvider;
+using WhLib;
 
-namespace WH
+namespace WH_WPF.ViewModels
 {
-	/// <summary>
-	///     Level Logics
-	/// </summary>
-	public class WH 
+	public class MdlWh: INotifyPropertyChanged
 	{
 		protected IDALWH PgP;
-		public WH(string ip, string unm, string pswd, string dbnm, string appnm, int port = 5432)
+		public MdlWh() : this("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh")
+		{
+			WH whm = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
+			//this("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
+
+		}
+		public MdlWh(string ip, string unm, string pswd, string dbnm, string appnm, int port = 5432)
 		{
 			//Как происходит инициализация объектов?
 			//Как происходит создание объекта?
@@ -17,8 +27,9 @@ namespace WH
 			PgP = new PgProvider(ip, unm, pswd, dbnm, appnm);
 			prvds = PgP.GetPrvds();
 			cs = PgP.GetConsumers();
+			lstPrvd = new ListCollectionView(prvds.Select(v => v.Value).ToList());
 		}
-		public WH(IDALWH dl)
+		public MdlWh(IDALWH dl)
 		{
 			PgP = dl;
 			prvds = PgP.GetPrvds();
@@ -26,10 +37,28 @@ namespace WH
 			gs = PgP.GetGoods();
 			incom = PgP.GetIncom();
 			stock = PgP.GetStocks();
-			leaving = PgP.GetLeav();
 			//PgP.InsertIncom(1, 4, 100, 33);
 		}
+		protected ListCollectionView _view_record;
+		public ListCollectionView lstPrvd
+		{
+			get
+			{
+				return _view_record;
+			}
+			set
+			{
+				if(_view_record != value)
+				{
+					_view_record = value;
+					PropertyChanged?.Invoke(this, EA_ViewRecords);
+				}
+			}
+		}
+		public MainWindow Dispatcher { get; internal set; }
 
+		private static readonly PropertyChangedEventArgs EA_ViewRecords = new(nameof(lstPrvd));
+		public event PropertyChangedEventHandler PropertyChanged;
 		//TODO: Dictionаry - это
 		public Dictionary<int, Provider> prvds { get; protected set; }
 
@@ -48,14 +77,6 @@ namespace WH
 			//b logic
 			PgP.InsertIncom(goods_pk, provider_pk, price, count);
 			incom = PgP.GetIncom();
-			stock = PgP.GetStocks();
-		}
-
-		public void InsertLeav(int goods_pk, int consumer_pk, int price, int count)
-		{
-			PgP.InsertLeav(goods_pk, consumer_pk, price, count);
-			leaving = PgP.GetLeav();
-			stock = PgP.GetStocks();
 		}
 		public void InsertPrvd(string st)
 		{
@@ -79,48 +100,14 @@ namespace WH
 			lev = 0;
 			sver = 0;
 
-			if(incom != null)
+
+			foreach(KeyValuePair<int, Incoming> inco in incom)
 			{
-				foreach(KeyValuePair<int, Incoming> inco in incom)
+				if(gds_key == inco.Value.goods_pk)
 				{
-					if(gds_key == inco.Value.goods_pk)
-					{
-						inc += inco.Value.count; // тоже самое что и: inc = inc + inco.Value.count таким образом к инк прибавим  inco.Value.count
-					}
+					inc += inco.Value.count; // тоже самое что и: inc = inc+ inco.Value.count таким образом к инк прибавим  inco.Value.count
 				}
 			}
-
-			if(stock != null)
-			{
-				foreach(KeyValuePair<int, Stocks> stok in stock)
-				{
-					if(gds_key == stok.Value.pk_gs)
-					{
-						stk = stok.Value.count;
-					}
-				}
-			}
-			else
-			{
-				
-			}
-
-			if(leaving != null)
-			{
-				foreach(KeyValuePair<int, Leaving> leav in leaving)
-				{
-					if(gds_key == leav.Value.goods_pk)
-					{
-						lev += leav.Value.count;
-					}
-				}
-			}
-			else
-			{
-				
-			}
-
-			sver = stk + lev - inc;
 			return true;
 		}
 	}

@@ -31,9 +31,7 @@ namespace AngWork
 			DP.Add(Svet.Name, Svet);
 			Console.WriteLine("\n\tWorking \"for\"");
 			for(int a = 0; a < DP.Count; ++a) People[a].Print(1);
-			foreach(var VARIABLE in Alex)
-			{
-			}
+		
 			Console.WriteLine("\nWorking \"foreach\"");
 			foreach(KeyValuePair<string, AAlive> st in DP) st.Value.Print(1);
 			Animal Cat = new Animal("Цыся", "Черный", 10);

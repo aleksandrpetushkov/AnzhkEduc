@@ -19,6 +19,7 @@ namespace file
 		{
 			StreamWriter f0 = new StreamWriter(File.Open("file.txt", FileMode.OpenOrCreate), Encoding.UTF8);
 			StreamWriter f1 = new StreamWriter("fs.txt", false, Encoding.UTF8);
+			StreamWriter f2 = new StreamWriter("fs.txt", false, Encoding.UTF8);
 			//f0.AutoFlush = true;
 			//f0.WriteLine("Angelika, Анжелика");
 			f0.Dispose();

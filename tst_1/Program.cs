@@ -7,12 +7,11 @@ namespace tst_1
 	{
 		private static void Main(string[] args)
 		{
-			Console.WriteLine("Hellowzzzzz");
-			DateTime dt = DateTime.Now;
-			Console.WriteLine(dt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-			//dt = new DateTime(dt.Ticks - (dt.Ticks % TimeSpan.TicksPerSecond));
-			dt.Trim(TimeSpan.FromSeconds(1));
-			Console.WriteLine(dt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+			int? i = null;
+			if(i is null)
+			{
+				Console.WriteLine("kkkk");
+			}
 		}
 	}
 }

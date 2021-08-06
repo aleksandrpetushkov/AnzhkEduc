@@ -8,12 +8,13 @@ namespace dbProvider
 	/// <summary>
 	///     Level DB || DAL - dataBase access level
 	/// </summary>
-	public class PgProvider : IDALWH
+	public class PgProvider: IDALWH
 	{
 		protected NpgsqlConnection _npcon;
 
 		//Конструктор это метод, название которого совпадает с названием класса и он ничего не возвращает
 		//Конструктор используется для создания объектов.
+
 		public PgProvider(string ip, string unm, string pswd, string dbnm, string apnm, int port = 5432)
 		{
 			NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder
@@ -37,9 +38,11 @@ namespace dbProvider
 				throw new Exception("ALLLBAAAD");
 			//выбросить исключение
 		}
+
 		public PgProvider()
 		{
 		}
+
 		public Dictionary<int, Provider> GetPrvds()
 		{
 			Dictionary<int, Provider> res = new Dictionary<int, Provider>();
@@ -58,6 +61,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+
 		public Dictionary<int, Consumer> GetConsumers()
 		{
 			Dictionary<int, Consumer> res = new Dictionary<int, Consumer>();
@@ -76,6 +80,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+
 		public Dictionary<int, Goods> GetGoods()
 		{
 			Dictionary<int, Goods> res = new Dictionary<int, Goods>();
@@ -94,6 +99,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+
 		public Dictionary<int, Stocks> GetStocks()
 		{
 			Dictionary<int, Stocks> res = new Dictionary<int, Stocks>();
@@ -112,6 +118,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+
 		public Dictionary<int, Incoming> GetIncom()
 		{
 			Dictionary<int, Incoming> res = new Dictionary<int, Incoming>();
@@ -133,6 +140,7 @@ namespace dbProvider
 			}
 			return res;
 		}
+
 		/*
 		public Dictionary<int, Incoming> GetIncomNm()
 		{
@@ -192,6 +200,7 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
+
 		public void InsertCs(string st)
 		{
 			int i;
@@ -200,6 +209,7 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
+
 		public void InsertGoods(string st)
 		{
 			int i;
@@ -208,19 +218,17 @@ namespace dbProvider
 				i = cmd.ExecuteNonQuery();
 			}
 		}
+
 		public List<string> execCmd(string query)
 		{
 			List<string> st = new List<string>();
-			using(NpgsqlCommand cmd = new NpgsqlCommand(query, _npcon))
-			{
-				using(NpgsqlDataReader r = cmd.ExecuteReader())
-				{
-					while(r.Read())
-						st.Add((string)r["nm"]);
-				}
-			}
+			using NpgsqlCommand cmd = new NpgsqlCommand(query, _npcon);
+			using NpgsqlDataReader r = cmd.ExecuteReader();
+			while(r.Read())
+				st.Add((string)r["nm"]);
 			return st;
 		}
+
 		public void InsertIncom(int goods_pk, int provider_pk, int price, int new_incom_count)
 		{
 			NpgsqlTransaction tr = _npcon.BeginTransaction();
@@ -245,7 +253,7 @@ VALUES ('{goods_pk}', '{provider_pk}', '{price}', '{new_incom_count}');", _npcon
 						return;
 					}
 				}
-				if(GsExist)																												
+				if(GsExist)
 					using(NpgsqlCommand cmd_upd = new($@"update stock set count=count+{new_incom_count} 
 where gs_pk={goods_pk};", _npcon, tr))
 					{

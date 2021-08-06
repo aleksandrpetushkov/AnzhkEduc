@@ -4,11 +4,12 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>WH</RootNamespace>
         <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\dbProvider\dbProvider.csproj" />
+      <ProjectReference Include="..\WhLib\WhLib.csproj" />
     </ItemGroup>
 
 </Project>
