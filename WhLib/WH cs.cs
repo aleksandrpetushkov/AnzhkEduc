@@ -18,6 +18,10 @@ namespace WhLib
 			PgP = new PgProvider(ip, unm, pswd, dbnm, appnm);
 			prvds = PgP.GetPrvds();
 			cs = PgP.GetConsumers();
+			gs = PgP.GetGoods();
+			incom = PgP.GetIncom();
+			stock = PgP.GetStocks();
+			leaving = PgP.GetLeav();
 		}
 
 		public WH(IDALWH dl)

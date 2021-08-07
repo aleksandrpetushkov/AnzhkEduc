@@ -14,7 +14,7 @@ namespace ViewModels
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string memberName = null)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName)); //условная проверка на null
 		}
 
 		protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string PropertyName = null)

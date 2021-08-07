@@ -18,7 +18,7 @@
 				<WrapPanel Orientation="Horizontal">
 					<TextBlock MinWidth="10"
 										Text="Name:" />
-					<TextBox x:Name="Name"
+					<TextBox x:Name="NamePrvd"
 									Margin="2,0,2,0"
 									Text="{Binding InptStr, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
 									TextWrapping="Wrap"
@@ -54,43 +54,46 @@
 													Height="13"
 													Margin="0,0,5,0"
 													Foreground="Red" />
-					<TextBlock Text="Вкладка 1" />
+					<TextBlock Text="Потребители"/>
 				</StackPanel>
 			</TabItem.Header>
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="63*" /> <RowDefinition Height="325*" />
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="157*" /> <ColumnDefinition Width="637*" />
-				</Grid.ColumnDefinitions>
-				<Rectangle Grid.Column="0"
-									Grid.Row="0"
-									Margin="5,7"
-									Fill="Blue"
-									Stroke="Red"
-									StrokeThickness="3"
-									RadiusX="5"
-									RadiusY="7" />
-				<Ellipse Grid.Column="1"
-								Grid.Row="0"
-								Fill="Red"
-								Stroke="Blue"
-								StrokeThickness="3">
-					<Ellipse.InputBindings>
-						<MouseBinding Command="{Binding CloseApplicationCommand}"
-													MouseAction="LeftDoubleClick" />
-					</Ellipse.InputBindings>
-				</Ellipse>
+			<WrapPanel Orientation="Vertical">
+				<WrapPanel Orientation="Horizontal">
+					<TextBlock MinWidth="10" Text="Name" />
+					<TextBox x:Name="NameCs" Margin="2,0,2,0" Text="{Binding InptStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="200" />
+					<Button Content="Add Consumers" Command="{Binding AddCs}" />
+					<Button Content="tmp" />
+				</WrapPanel>
+				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding ViewRecordsCs}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Width="30" Header="№" Binding="{Binding Pk}"/>
+						<DataGridTextColumn Width="300" Header="Name" Binding="{Binding Name}" />
+					</DataGrid.Columns>
+				</DataGrid>
 
-				<GridSplitter Grid.Column="0"
-											Grid.Row="0"
-											Grid.RowSpan="2"
-											HorizontalAlignment="Right"
-											Width="4" />
-			</Grid>
+			</WrapPanel>
 		</TabItem>
-		<TabItem Header="Вкладка 2" /> <TabItem Header="Вкладка 3" /> <TabItem Header="Вкладка 4" />
+		<TabItem Header="Товары" >
+			<WrapPanel Orientation="Vertical">
+				<WrapPanel Orientation="Horizontal">
+					<TextBlock MinWidth="10" Text="Name" />
+					<TextBox x:Name="NameGs" Margin="2,0,2,0" Text="{Binding InptStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="200" />
+					<Button Content="Add goods" Command="{Binding AddGs}" />
+				</WrapPanel>
+				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding ViewRecordsGs}" >
+					<DataGrid.Columns>
+						<DataGridTextColumn Width="30" Header="№" Binding="{Binding Pk}" />
+						<DataGridTextColumn Width="300" Header="Name" Binding="{Binding Name}" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</WrapPanel>
+		</TabItem>
+
+
+
+
+			<TabItem Header="Вкладка 3" />
+		<TabItem Header="Вкладка 4" />
 	</TabControl>
 
 </Window>

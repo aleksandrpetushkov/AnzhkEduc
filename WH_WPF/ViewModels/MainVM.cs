@@ -14,16 +14,29 @@ namespace ViewModels
 	{
 		#region Заголовок окна
 
-		public ICommand AddPrvd{ get; }
+		public ICommand AddPrvd { get; }
 		protected WH wh;
 
+		public ICommand AddCs { get; }
+
+		public ICommand AddGs { get; }
 		public MainVM()
 		{
 			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
+
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
-			NameColumn = "Providers";
+			NameColumnPrvd = "Providers";
 			AddPrvd = new CmdCommon(OnAddPrvd, CanExAddPrvd);
+
+			ViewRecordsCs = new ListCollectionView(wh.cs.Select(vl => vl.Value).ToList());
+			NameColumnCs = "Consumers";
+			AddCs = new CmdCommon(OnAddCs, CanExAddCs);
+
+			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
+			AddGs = new CmdCommon(OnAddGs, CanExAddGs);
 		}
+
+
 
 		private string _inpustr;
 
@@ -38,10 +51,32 @@ namespace ViewModels
 			return !string.IsNullOrEmpty(_inpustr);
 		}
 
+		public bool CanExAddCs(object c)
+		{
+			return !string.IsNullOrEmpty(_inpustr);
+		}
+
+		public bool CanExAddGs(object g)
+		{
+			return !string.IsNullOrEmpty(_inpustr);
+		}
+
 		public void OnAddPrvd(object p)
 		{
 			wh.InsertPrvd(_inpustr);
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
+		}
+			
+		public void OnAddCs(object c)
+		{
+			wh.InsertCs(_inpustr);
+			ViewRecordsCs = new ListCollectionView(wh.cs.Select(vl => vl.Value).ToList());
+		}
+
+		public void OnAddGs(object g)
+		{
+			wh.InsertGoods(_inpustr);
+			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 		}
 
 		#region Title
@@ -65,16 +100,36 @@ namespace ViewModels
 
 		#endregion Title
 
+		private ListCollectionView _view_recordPrvd = default;
+		private string _name = "Name";
+		private ListCollectionView _view_recordCs;
+		private ListCollectionView _view_recordGs;
+
 		public ListCollectionView ViewRecordsPrvd
 		{
-			get => _view_record;
-			set => Set(ref _view_record, value);
+			get => _view_recordPrvd;
+			set => Set(ref _view_recordPrvd, value);
 		}
 
-		private ListCollectionView _view_record = default;
-		private string _name = "Name";
+		public ListCollectionView ViewRecordsCs
+		{
+			get => _view_recordCs;
+			set => Set(ref _view_recordCs, value);
+		}
 
-		public string NameColumn
+		public ListCollectionView ViewRecordsGs
+		{
+			get => _view_recordGs;
+			set => Set(ref _view_recordGs, value);
+		}
+
+		public string NameColumnPrvd
+		{
+			get => _name;
+			set => Set(ref _name, value);
+		}
+
+		public string NameColumnCs
 		{
 			get => _name;
 			set => Set(ref _name, value);
