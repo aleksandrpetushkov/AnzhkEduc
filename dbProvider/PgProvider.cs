@@ -8,7 +8,7 @@ namespace dbProvider
 	/// <summary>
 	///     Level DB || DAL - dataBase access level
 	/// </summary>
-	public class PgProvider: IDALWH
+	public class PgProvider : IDALWH
 	{
 		protected NpgsqlConnection _npcon;
 
@@ -19,8 +19,15 @@ namespace dbProvider
 		{
 			NpgsqlConnectionStringBuilder sb = new()
 			{
-				Password = pswd, Port = port, Database = dbnm, Host = ip, Pooling = false, CommandTimeout = 360
-				, ApplicationName = apnm, Username = unm
+				Password = pswd,
+				Port = port,
+				Database = dbnm,
+				Host = ip,
+				Pooling = false,
+				CommandTimeout = 360
+				,
+				ApplicationName = apnm,
+				Username = unm
 			};
 			NpgsqlConnectionStringBuilder sb1 = new();
 			sb1.Password = pswd;
@@ -191,10 +198,10 @@ namespace dbProvider
 
 		public void InsertPrvd(string st)
 		{
-//			string str = command DB
-//			string strq=str;
-//			st.Replace("Ситилинк",st);
-//			Console.WriteLine("Мы пытались загрузить строку {st_reader} и чота мы эксепшн словили вот его мессадж: {e.Message}");
+			//			string str = command DB
+			//			string strq=str;
+			//			st.Replace("Ситилинк",st);
+			//			Console.WriteLine("Мы пытались загрузить строку {st_reader} и чота мы эксепшн словили вот его мессадж: {e.Message}");
 			int i;
 			using(NpgsqlCommand cmd = new($@"INSERT INTO provider (nm) VALUES ('{st}')", _npcon))
 			{

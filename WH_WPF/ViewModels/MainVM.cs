@@ -20,7 +20,7 @@ namespace ViewModels
 		public ICommand AddCs { get; }
 
 		public ICommand AddGs { get; }
-		public MainVM()
+		public MainVM() //Constructor 
 		{
 			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
 
@@ -66,7 +66,7 @@ namespace ViewModels
 			wh.InsertPrvd(_inpustr);
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 		}
-			
+
 		public void OnAddCs(object c)
 		{
 			wh.InsertCs(_inpustr);

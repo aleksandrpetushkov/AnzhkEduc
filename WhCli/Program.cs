@@ -85,12 +85,12 @@ namespace WhCli //Cli - command line interface
 						case 6:
 							Console.WriteLine("Все товары:\n");
 							foreach(KeyValuePair<int, Goods> goods in OurWh.gs)
-								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.Name}");
 							break;
 						case 7:
 							Console.WriteLine("-----------------------\nВсе товары:\n");
 							foreach(KeyValuePair<int, Goods> goods in OurWh.gs)
-								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.Name}");
 							Console.WriteLine("Все поставщики:\n");
 							foreach(KeyValuePair<int, Provider> provider in OurWh.prvds)
 								Console.WriteLine($"Номер: {provider.Key} Название: {provider.Value.Name}");
@@ -125,7 +125,7 @@ namespace WhCli //Cli - command line interface
 								if(OurWh.gs.TryGetValue(mas_int[0], out Goods g)
 									 && OurWh.prvds.TryGetValue(mas_int[1], out Provider prov))
 									Console.WriteLine(
-										$"Вы ввели: Название товара: {OurWh.gs[mas_int[0]].nm} Поставщик: {OurWh.prvds[mas_int[1]].Name} "
+										$"Вы ввели: Название товара: {OurWh.gs[mas_int[0]].Name} Поставщик: {OurWh.prvds[mas_int[1]].Name} "
 										+ $"Цена: {mas_int[2]} Количество: {mas_int[3]} \nПодтвердить ввод: 1-да, !1-нет");
 								else
 								{
@@ -142,12 +142,12 @@ namespace WhCli //Cli - command line interface
 							Console.WriteLine("Показать приход:\n");
 							foreach(KeyValuePair<int, Incoming> inc in OurWh.incom)
 								Console.WriteLine(
-									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].nm} Поставщик: {OurWh.prvds[inc.Value.provider_pk].Name} Цена: {inc.Value.price} Количество: {inc.Value.count}");
+									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].Name} Поставщик: {OurWh.prvds[inc.Value.provider_pk].Name} Цена: {inc.Value.price} Количество: {inc.Value.count}");
 							break;
 						case 9:
 							Console.WriteLine("-----------------------\nВсе товары:\n");
 							foreach(KeyValuePair<int, Goods> goods in OurWh.gs)
-								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.nm}");
+								Console.WriteLine($"Номер: {goods.Key} Название: {goods.Value.Name}");
 							Console.WriteLine("Все потребители:\n");
 							foreach(KeyValuePair<int, Consumer> cons in OurWh.cs)
 								Console.WriteLine($"Номер: {cons.Key} Название: {cons.Value.Name}");
@@ -176,7 +176,7 @@ namespace WhCli //Cli - command line interface
 								if(OurWh.gs.TryGetValue(mas_lev_int[0], out Goods g)
 									 && OurWh.cs.TryGetValue(mas_lev_int[1], out Consumer cons))
 									Console.WriteLine(
-										$"Вы ввели: Название товара: {OurWh.gs[mas_lev_int[0]].nm} Потребитель: {OurWh.cs[mas_lev_int[1]].Name} "
+										$"Вы ввели: Название товара: {OurWh.gs[mas_lev_int[0]].Name} Потребитель: {OurWh.cs[mas_lev_int[1]].Name} "
 										+ $"Цена: {mas_lev_int[2]} Количество: {mas_lev_int[3]} \nПодтвердить ввод: 1-да, !1-нет");
 								else
 								{
@@ -193,21 +193,21 @@ namespace WhCli //Cli - command line interface
 							Console.WriteLine("Показать расход:\n");
 							foreach(KeyValuePair<int, Leaving> lev in OurWh.leaving)
 								Console.WriteLine(
-									$"Номер: {lev.Key} Товар: {OurWh.gs[lev.Value.goods_pk].nm} Потребитель: {OurWh.cs[lev.Value.consumer_pk].Name} Цена: {lev.Value.price} Количество: {lev.Value.count}");
+									$"Номер: {lev.Key} Товар: {OurWh.gs[lev.Value.goods_pk].Name} Потребитель: {OurWh.cs[lev.Value.consumer_pk].Name} Цена: {lev.Value.price} Количество: {lev.Value.count}");
 							break;
 						case 11:
 							Console.WriteLine("Показать остаток:\n");
 							foreach(KeyValuePair<int, Stocks> stk in OurWh.stock)
-								Console.WriteLine($"Товар: {OurWh.gs[stk.Value.pk_gs].nm} Количество {stk.Value.count}");
+								Console.WriteLine($"Товар: {OurWh.gs[stk.Value.pk_gs].Name} Количество {stk.Value.count}");
 							break;
 						case 12:
 							Console.WriteLine("Провести сверку остатков:\n");
 							foreach(KeyValuePair<int, Goods> gds in OurWh.gs)
 								if(OurWh.KH(gds.Key, out int inc, out int stk, out int lev, out int sver))
 									Console.WriteLine(
-										$"Было движение по {gds.Value.nm} Приход: {inc} Расход: {lev} Остаток: {stk}  Сверка:{sver}");
+										$"Было движение по {gds.Value.Name} Приход: {inc} Расход: {lev} Остаток: {stk}  Сверка:{sver}");
 								else
-									Console.WriteLine($"Не было движения по {gds.Value.nm}");
+									Console.WriteLine($"Не было движения по {gds.Value.Name}");
 							break;
 						case 13:
 							Console.WriteLine("Очистить базу данных? Нажмите 1, если да\n");

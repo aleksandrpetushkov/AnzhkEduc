@@ -88,11 +88,20 @@
 				</DataGrid>
 			</WrapPanel>
 		</TabItem>
+		<TabItem Header="Приход">
+			<WrapPanel Orientation="Vertical">
+				<WrapPanel Orientation="Horizontal">
+					<ComboBox Name="Providers" Width="200" VerticalAlignment="Top">
+						<TextBlock Text="{Binding ViewRecordsPrvd}" />
 
+					</ComboBox>
 
-
-
-			<TabItem Header="Вкладка 3" />
+				
+				</WrapPanel>
+			
+			</WrapPanel>
+		
+		</TabItem>
 		<TabItem Header="Вкладка 4" />
 	</TabControl>
 
