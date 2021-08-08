@@ -91,14 +91,18 @@
 		<TabItem Header="Приход">
 			<WrapPanel Orientation="Vertical">
 				<WrapPanel Orientation="Horizontal">
-					<ComboBox Name="Providers" Width="200" VerticalAlignment="Top">
-						<TextBlock Text="{Binding ViewRecordsPrvd}" />
-
+					<ComboBox Name="Providers" Width="150" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsPrvd}" DisplayMemberPath="Name">
 					</ComboBox>
-
-				
+					<ComboBox Name="Goods" Width="150" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsGs}">
+					</ComboBox>
+					<TextBlock Text="Count" />
+					<TextBox x:Name="Count" Margin="2,0,2,0" Text="{Binding InptStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="70" />
+					<TextBlock Text="Price" />
+					<TextBox x:Name="Price" Margin="2,0,2,0" Text="{Binding InptStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="100" />
+					<Button Content="Add incoming" Command="{Binding AddInc}"/>
 				</WrapPanel>
-			
+				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="False"/>
+
 			</WrapPanel>
 		
 		</TabItem>
