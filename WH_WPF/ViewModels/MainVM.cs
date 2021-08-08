@@ -38,44 +38,59 @@ namespace ViewModels
 
 
 
-		private string _inpustr;
+		private string _inpustr_name;
+		private string _inpustr_count;
+		private string _inpustr_price;
 
-		public string InptStr
+
+		public string InptStrName
 		{
-			get => _inpustr;
-			set => Set(ref _inpustr, value);
+			get => _inpustr_name;
+			set => Set(ref _inpustr_name, value);
+		}
+
+		public string InptStrCount
+		{
+			get => _inpustr_count;
+			set => Set(ref _inpustr_count, value);
+		}
+
+		public string InptStrPrice
+		{
+			get => _inpustr_price;
+			set => Set(ref _inpustr_price, value);
 		}
 
 		public bool CanExAddPrvd(object p)
 		{
-			return !string.IsNullOrEmpty(_inpustr);
+			return !string.IsNullOrEmpty(_inpustr_name);
 		}
 
 		public bool CanExAddCs(object c)
 		{
-			return !string.IsNullOrEmpty(_inpustr);
+			return !string.IsNullOrEmpty(_inpustr_name);
 		}
 
 		public bool CanExAddGs(object g)
 		{
-			return !string.IsNullOrEmpty(_inpustr);
+			return !string.IsNullOrEmpty(_inpustr_name);
 		}
 
 		public void OnAddPrvd(object p)
 		{
-			wh.InsertPrvd(_inpustr);
+			wh.InsertPrvd(_inpustr_name);
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 		}
 
 		public void OnAddCs(object c)
 		{
-			wh.InsertCs(_inpustr);
+			wh.InsertCs(_inpustr_name);
 			ViewRecordsCs = new ListCollectionView(wh.cs.Select(vl => vl.Value).ToList());
 		}
 
 		public void OnAddGs(object g)
 		{
-			wh.InsertGoods(_inpustr);
+			wh.InsertGoods(_inpustr_name);
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 		}
 
