@@ -32,8 +32,19 @@ namespace ViewModels
 			NameColumnCs = "Consumers";
 			AddCs = new CmdCommon(OnAddCs, CanExAddCs);
 
+
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 			AddGs = new CmdCommon(OnAddGs, CanExAddGs);
+
+
+			//_view_recordInc = new ListCollectionView();
+
+			var result = from prvd in wh.prvds.Select(vl => vl.Value).ToList()
+									 join inc in wh.incom.Select(vl => vl.Value).ToList() on prvd.Pk equals inc.provider_pk
+									 join g in wh.gs.Select(vl => vl.Value).ToList() on inc.goods_pk equals g.Pk
+									 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
+
+			_view_recordInc = new ListCollectionView(result.ToList());
 		}
 
 		protected object _selecPrvd;
@@ -102,6 +113,7 @@ namespace ViewModels
 			ViewRecordsCs = new ListCollectionView(wh.cs.Select(vl => vl.Value).ToList());
 		}
 
+
 		public void OnAddGs(object g)
 		{
 			wh.InsertGoods(_inpustr_name);
@@ -157,6 +169,14 @@ namespace ViewModels
 			get => _view_recordGs;
 			set => Set(ref _view_recordGs, value);
 		}
+		#region Income
+		private ListCollectionView _view_recordInc;
+		public ListCollectionView ViewRecordsInc
+		{
+			get => _view_recordInc;
+			set => Set(ref _view_recordInc, value);
+		}
+		#endregion
 
 		public string NameColumnPrvd
 		{

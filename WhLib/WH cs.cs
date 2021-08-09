@@ -99,7 +99,7 @@ namespace WhLib
 				foreach(KeyValuePair<int, Incoming> inco in incom)
 					if(gds_key == inco.Value.goods_pk)
 						inc += inco.Value.
-							count; // тоже самое что и: inc = inc + inco.Value.count таким образом к инк прибавим  inco.Value.count
+							Count; // тоже самое что и: inc = inc + inco.Value.count таким образом к инк прибавим  inco.Value.count
 			if(stock != null)
 			{
 				foreach(KeyValuePair<int, Stocks> stok in stock)

@@ -142,7 +142,7 @@ namespace WhCli //Cli - command line interface
 							Console.WriteLine("Показать приход:\n");
 							foreach(KeyValuePair<int, Incoming> inc in OurWh.incom)
 								Console.WriteLine(
-									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].Name} Поставщик: {OurWh.prvds[inc.Value.provider_pk].Name} Цена: {inc.Value.price} Количество: {inc.Value.count}");
+									$"Номер: {inc.Key} Товар: {OurWh.gs[inc.Value.goods_pk].Name} Поставщик: {OurWh.prvds[inc.Value.provider_pk].Name} Цена: {inc.Value.Price} Количество: {inc.Value.Count}");
 							break;
 						case 9:
 							Console.WriteLine("-----------------------\nВсе товары:\n");
