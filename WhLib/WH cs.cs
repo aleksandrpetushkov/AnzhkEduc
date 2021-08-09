@@ -37,12 +37,14 @@ namespace WhLib
 		}
 
 		//TODO: Dictionаry - это
-		public Dictionary<int, Provider> prvds{ get; protected set; }
-		public Dictionary<int, Consumer> cs{ get; set; }
-		public Dictionary<int, Goods> gs{ get; set; }
-		public Dictionary<int, Incoming> incom{ get; set; }
-		public Dictionary<int, Stocks> stock{ get; set; }
-		public Dictionary<int, Leaving> leaving{ get; set; }
+		public Dictionary<int, Provider> prvds { get; protected set; }
+		public Dictionary<int, Consumer> cs { get; set; }
+		public Dictionary<int, Goods> gs { get; set; }
+		public Dictionary<int, Incoming> incom { get; set; }
+		public Dictionary<int, Stocks> stock { get; set; }
+		public Dictionary<int, Leaving> leaving { get; set; }
+
+		//List<GoodsView>
 
 		public void AddIncom(int goods_pk, int provider_pk, int price, int count)
 		{
@@ -50,6 +52,16 @@ namespace WhLib
 			PgP.InsertIncom(goods_pk, provider_pk, price, count);
 			incom = PgP.GetIncom();
 			stock = PgP.GetStocks();
+		}
+
+		public void AddIncom(object goods, object provider, int price, int count)
+		{
+				AddIncom(((Goods)goods).Pk, ((Provider)provider).Pk, price, count);
+
+			//b logic
+			//PgP.InsertIncom(goods_pk, provider_pk, price, count);
+			//incom = PgP.GetIncom();
+			//stock = PgP.GetStocks();
 		}
 
 		public void InsertLeav(int goods_pk, int consumer_pk, int price, int count)

@@ -36,10 +36,24 @@ namespace ViewModels
 			AddGs = new CmdCommon(OnAddGs, CanExAddGs);
 		}
 
+		protected object _selecPrvd;
 
+		protected object _selecGs;
+
+		public object SelecPrvd
+		{
+			get => _selecPrvd;
+			set => Set(ref _selecPrvd, value);
+		}
+
+		public object SelecGs
+		{
+			get => _selecPrvd;
+			set => Set(ref _selecPrvd, value);
+		}
 
 		private string _inpustr_name;
-		private string _inpustr_count;
+		private int _inpustr_count;
 		private string _inpustr_price;
 
 
@@ -49,7 +63,7 @@ namespace ViewModels
 			set => Set(ref _inpustr_name, value);
 		}
 
-		public string InptStrCount
+		public int InptStrCount
 		{
 			get => _inpustr_count;
 			set => Set(ref _inpustr_count, value);
@@ -94,6 +108,12 @@ namespace ViewModels
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 		}
 
+
+		public void OnAddInc(object g)
+		{
+			wh.AddIncom(SelecGs, SelecPrvd, 0, 0);
+			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
+		}
 		#region Title
 
 		private string _Title = "Warehouse 2.0";
