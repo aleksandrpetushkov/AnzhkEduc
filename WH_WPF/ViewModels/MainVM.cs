@@ -24,7 +24,7 @@ namespace ViewModels
 		public MainVM() //Constructor 
 		{
 			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
-
+			
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 			NameColumnPrvd = "Providers";
 			AddPrvd = new CmdCommon(OnAddPrvd, CanExAddPrvd);
@@ -52,14 +52,14 @@ namespace ViewModels
 									 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
 									 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
 
-			_view_recordInc = new ListCollectionView(result_inc.ToList());
+			ViewRecordsInc = new ListCollectionView(result_inc.ToList());
 
 			var result_lev = from cs in wh.cs.Select(vl => vl.Value)
 											 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
 											 join g in wh.gs.Select(vl => vl.Value) on lev.goods_pk equals g.Pk
 											 select new { Pk = lev.pk, NameC = cs.Name, NameG = g.Name, Count = lev.count, Price = lev.price };
 
-			_view_recordLev = new ListCollectionView(result_lev.ToList());
+			ViewRecordsLeav = new ListCollectionView(result_lev.ToList());
 		}
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
@@ -98,6 +98,7 @@ namespace ViewModels
 		private string _inpustr_price;
 
 
+		//ПОсле ввода текста срабатывает пропертич_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
 		public string InptStrName
 		{
 			get => _inpustr_name;
@@ -211,11 +212,10 @@ namespace ViewModels
 			set => Set(ref _view_recordInc, value);
 		}
 
-		private ListCollectionView ViewRecordsLeav
+		public ListCollectionView ViewRecordsLeav
 		{
 			get => _view_recordLev;
 			set => Set(ref _view_recordLev, value);
-
 		}
 		#endregion
 
