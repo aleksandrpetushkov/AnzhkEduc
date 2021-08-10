@@ -44,7 +44,7 @@ namespace lesson2
 					//Console.WriteLine(st_mass[0]);
 					//Console.WriteLine("Анжелика");
 					lol = new Student(st_mass[0], st_mass[1], Convert.ToInt32(st_mass[2]));
-					lol.prt += Валя;
+					lol.prt += (st, i) => { Console.WriteLine($"Я Валя и я получила сообщение студента: {st}"); };
 					lol.prt += Галя;
 
 					//lol.Print("1");
@@ -82,11 +82,14 @@ namespace lesson2
 			Console.WriteLine("\r\n\r\nВыводим студентов после отписки...");
 			for(int i = 0; i < ls.Count; ++i)
 				ls[i].Print(1);
+			//*
 			void Валя(string st, int i)
 			{
 				Console.WriteLine($"Я Валя и я получила сообщение студента: {st}");
 			}
+			//*/
 			void Галя(string st, int i)
+
 			{
 				Console.WriteLine($"Я Галя и я получила сообщение студента: {st}");
 			}

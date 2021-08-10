@@ -211,11 +211,7 @@ namespace WhCli //Cli - command line interface
 							break;
 						case 13:
 							Console.WriteLine("Очистить базу данных? Нажмите 1, если да\n");
-							if(int.TryParse(Console.ReadLine(), out int k) && k == 1)
-							{
-							}
-							else
-								Console.WriteLine("Вы отказались от ввода");
+							OurWh.prvds.PrDic();
 							break;
 						case 99:
 							Console.WriteLine("Хочу выйти из ПО.");

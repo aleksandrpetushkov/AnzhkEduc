@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using WH_WPF.Cmd;
 using WhLib;
+using dbProvider;
 
 namespace ViewModels
 {
@@ -33,18 +34,35 @@ namespace ViewModels
 			AddCs = new CmdCommon(OnAddCs, CanExAddCs);
 
 
-			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
+			ViewRecordsGs = new ListCollectionView(wh.gs.Select(k_v => k_v.Value).ToList());
 			AddGs = new CmdCommon(OnAddGs, CanExAddGs);
 
 
-			//_view_recordInc = new ListCollectionView();
+			
 
-			var result = from prvd in wh.prvds.Select(vl => vl.Value).ToList()
-									 join inc in wh.incom.Select(vl => vl.Value).ToList() on prvd.Pk equals inc.provider_pk
-									 join g in wh.gs.Select(vl => vl.Value).ToList() on inc.goods_pk equals g.Pk
+			//1
+			
+			var prvlistE = wh.prvds.Select(vl => vl.Value);
+			var incLisctE = wh.incom.Select(vl => vl.Value);
+			var gsE = wh.gs.Select(vl => vl.Value);
+			//2
+			
+			var result = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
+									 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
+									 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
 									 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
 
 			_view_recordInc = new ListCollectionView(result.ToList());
+
+
+
+		}
+		public Provider f(KeyValuePair<int, Provider> vl)
+		{
+			if(vl.Value is null)
+				return null;
+			return null;
+
 		}
 
 		protected object _selecPrvd;
