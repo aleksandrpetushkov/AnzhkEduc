@@ -47,15 +47,19 @@ namespace ViewModels
 			var gsE = wh.gs.Select(vl => vl.Value);
 			//2
 			
-			var result = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
+			var result_inc = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
 									 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
 									 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
 									 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
 
-			_view_recordInc = new ListCollectionView(result.ToList());
+			_view_recordInc = new ListCollectionView(result_inc.ToList());
 
+			var result_lev = from cs in wh.cs.Select(vl => vl.Value)
+											 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
+											 join g in wh.gs.Select(vl => vl.Value) on lev.goods_pk equals g.Pk
+											 select new { Pk = lev.pk, NameC = cs.Name, NameG = g.Name, Count = lev.count, Price = lev.price };
 
-
+			_view_recordLev = new ListCollectionView(result_lev.ToList());
 		}
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
@@ -65,20 +69,28 @@ namespace ViewModels
 
 		}
 
-		protected object _selecPrvd;
+		protected object _selectPrvd;
 
-		protected object _selecGs;
+		protected object _selectGs;
 
-		public object SelecPrvd
+		protected object _selectCs;
+
+		public object SelectPrvd
 		{
-			get => _selecPrvd;
-			set => Set(ref _selecPrvd, value);
+			get => _selectPrvd;
+			set => Set(ref _selectPrvd, value);
 		}
 
-		public object SelecGs
+		public object SelectGs
 		{
-			get => _selecPrvd;
-			set => Set(ref _selecPrvd, value);
+			get => _selectGs;
+			set => Set(ref _selectGs, value);
+		}
+
+		public object SelectCs
+		{
+			get => _selectCs;
+			set => Set(ref _selectCs, value);
 		}
 
 		private string _inpustr_name;
@@ -141,9 +153,11 @@ namespace ViewModels
 
 		public void OnAddInc(object g)
 		{
-			wh.AddIncom(SelecGs, SelecPrvd, 0, 0);
+			wh.AddIncom(SelectGs, SelectPrvd, 0, 0);
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 		}
+
+		
 		#region Title
 
 		private string _Title = "Warehouse 2.0";
@@ -189,10 +203,19 @@ namespace ViewModels
 		}
 		#region Income
 		private ListCollectionView _view_recordInc;
+
+		private ListCollectionView _view_recordLev;
 		public ListCollectionView ViewRecordsInc
 		{
 			get => _view_recordInc;
 			set => Set(ref _view_recordInc, value);
+		}
+
+		private ListCollectionView ViewRecordsLeav
+		{
+			get => _view_recordLev;
+			set => Set(ref _view_recordLev, value);
+
 		}
 		#endregion
 
