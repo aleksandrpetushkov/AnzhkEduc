@@ -146,5 +146,37 @@
 				</DataGrid>
 			</WrapPanel>
 		</TabItem>
+		<TabItem Header="Остаток">
+			<WrapPanel Orientation="Vertical">
+				<WrapPanel Orientation="Horizontal">
+					<ComboBox Name="GsStock" Width="100" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsGs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectGs}">
+					</ComboBox>
+					<TextBlock MinWidth="10" Text="Count"/>
+					<TextBox x:Name="Stock" Margin="2,0,3,0" Text="{Binding InptStrCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50"/>
+					<Button Content="Add Stock" Command="{Binding AddStk}"/>
+					</WrapPanel>
+				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsStk}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}"/>
+						<DataGridTextColumn Width="40" Header="Count" Binding="{Binding Count}"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</WrapPanel>
+		</TabItem>
+		<TabItem Header="Сверка">
+			<WrapPanel Orientation="Vertical">
+				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsSver}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}"/>
+						<DataGridTextColumn Width="50" Header="Incoming" Binding="{Binding Inc}"/>
+						<DataGridTextColumn Width="50" Header="Stock" Binding="{Binding Stk}"/>
+						<DataGridTextColumn Width="50" Header="Leaving" Binding="{Binding Lev}"/>
+						<DataGridTextColumn Width="50" Header="Sverka" Binding="{Binding Sver}"/>
+					</DataGrid.Columns>
+				
+				</DataGrid>
+			
+			</WrapPanel>
+		</TabItem>
 	</TabControl>
 </Window>

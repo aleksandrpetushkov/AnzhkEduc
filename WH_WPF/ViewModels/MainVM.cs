@@ -60,6 +60,31 @@ namespace ViewModels
 											 select new { Pk = lev.pk, NameC = cs.Name, NameG = g.Name, Count = lev.count, Price = lev.price };
 
 			ViewRecordsLeav = new ListCollectionView(result_lev.ToList());
+
+			var result_stk = from gs in wh.gs.Select(vl => vl.Value)
+											 join stk in wh.stock.Select(vl => vl.Value) on gs.Pk equals stk.pk_gs
+											 select new { NameG = gs.Name, Count = stk.count };
+
+			ViewRecordsStk = new ListCollectionView(result_stk.ToList());
+
+			List<Sverka> svr = new List<Sverka>();
+
+			foreach(var g in wh.gs)
+			{
+				wh.KH(g.Key, out int inc, out int stk, out int lev, out int sver);
+				Sverka s = new Sverka(g.Key, inc, stk, lev, sver);
+				svr.Add(s);
+				
+			}
+
+			
+
+			var result = from g in wh.gs.Select(vl => vl.Value)
+									 join sv in svr on g.Pk equals sv.gs_key
+									 select new { NameG = g.Name, Inc = sv.inc, Stk = sv.stk, Lev = sv.lev, Sver = sv.sver };
+			
+			ViewRecordsSver = new ListCollectionView(result.ToList());
+
 		}
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
@@ -98,7 +123,7 @@ namespace ViewModels
 		private string _inpustr_price;
 
 
-		//ПОсле ввода текста срабатывает пропертич_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
+		//После ввода текста срабатывает проперти_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
 		public string InptStrName
 		{
 			get => _inpustr_name;
@@ -184,7 +209,7 @@ namespace ViewModels
 		private string _name = "Name";
 		private ListCollectionView _view_recordCs;
 		private ListCollectionView _view_recordGs;
-
+		
 		public ListCollectionView ViewRecordsPrvd
 		{
 			get => _view_recordPrvd;
@@ -206,6 +231,11 @@ namespace ViewModels
 		private ListCollectionView _view_recordInc;
 
 		private ListCollectionView _view_recordLev;
+
+		private ListCollectionView _view_recordsStk;
+
+		private ListCollectionView _view_recordsSver;
+
 		public ListCollectionView ViewRecordsInc
 		{
 			get => _view_recordInc;
@@ -216,6 +246,19 @@ namespace ViewModels
 		{
 			get => _view_recordLev;
 			set => Set(ref _view_recordLev, value);
+		}
+
+		public ListCollectionView ViewRecordsStk
+		{
+			get => _view_recordsStk;
+			set => Set(ref _view_recordsStk, value);
+
+		}
+
+		public ListCollectionView ViewRecordsSver
+		{
+			get => _view_recordsSver;
+			set => Set(ref _view_recordsSver, value);
 		}
 		#endregion
 
