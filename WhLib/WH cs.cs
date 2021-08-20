@@ -56,7 +56,7 @@ namespace WhLib
 			stock = PgP.GetStocks();
 		}
 
-		public void AddIncom(object goods, object provider, int price, int count)
+		public void AddIncom(object goods, object provider, int count, int price)
 		{
 
 

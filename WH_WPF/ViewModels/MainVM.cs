@@ -51,12 +51,12 @@ namespace ViewModels
 			var gsE = wh.gs.Select(vl => vl.Value);
 			//2
 
-			var result_inc = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
+			/*IEnumerable<object> result_inc = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
 											 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
 											 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
 											 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
-
-			ViewRecordsInc = new ListCollectionView(result_inc.ToList());
+*/
+			ViewRecordsInc = new ListCollectionView(GetIncByName().ToList());
 
 			var result_lev = from cs in wh.cs.Select(vl => vl.Value)
 											 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
@@ -90,6 +90,16 @@ namespace ViewModels
 			ViewRecordsSver = new ListCollectionView(result.ToList());
 
 		}
+
+		private IEnumerable<object> GetIncByName ()
+		{ 
+			return from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
+						 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
+						 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
+						 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
+		}
+
+
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
 			if(vl.Value is null)
@@ -192,10 +202,10 @@ namespace ViewModels
 		}
 
 
-		public void OnAddInc(object g)
+		public void OnAddInc(object zu)
 		{
-			wh.AddIncom(SelectGs, SelectPrvd, 0, 0);
-			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
+			wh.AddIncom(SelectGs, SelectPrvd, _inpustr_count, _inpustr_price);
+			ViewRecordsInc = new ListCollectionView(GetIncByName().ToList());
 		}
 
 
