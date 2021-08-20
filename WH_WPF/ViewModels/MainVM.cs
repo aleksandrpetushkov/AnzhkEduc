@@ -21,10 +21,12 @@ namespace ViewModels
 		public ICommand AddCs { get; }
 
 		public ICommand AddGs { get; }
+
+		public ICommand AddInc { get; }
 		public MainVM() //Constructor 
 		{
 			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
-			
+
 			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
 			NameColumnPrvd = "Providers";
 			AddPrvd = new CmdCommon(OnAddPrvd, CanExAddPrvd);
@@ -37,20 +39,22 @@ namespace ViewModels
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(k_v => k_v.Value).ToList());
 			AddGs = new CmdCommon(OnAddGs, CanExAddGs);
 
+			AddInc = new CmdCommon(OnAddInc, CanExAddInc);
 
-			
+
+
 
 			//1
-			
+
 			var prvlistE = wh.prvds.Select(vl => vl.Value);
 			var incLisctE = wh.incom.Select(vl => vl.Value);
 			var gsE = wh.gs.Select(vl => vl.Value);
 			//2
-			
+
 			var result_inc = from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
-									 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
-									 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
-									 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
+											 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
+											 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
+											 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
 
 			ViewRecordsInc = new ListCollectionView(result_inc.ToList());
 
@@ -74,15 +78,15 @@ namespace ViewModels
 				wh.KH(g.Key, out int inc, out int stk, out int lev, out int sver);
 				Sverka s = new Sverka(g.Key, inc, stk, lev, sver);
 				svr.Add(s);
-				
+
 			}
 
-			
+
 
 			var result = from g in wh.gs.Select(vl => vl.Value)
 									 join sv in svr on g.Pk equals sv.gs_key
 									 select new { NameG = g.Name, Inc = sv.inc, Stk = sv.stk, Lev = sv.lev, Sver = sv.sver };
-			
+
 			ViewRecordsSver = new ListCollectionView(result.ToList());
 
 		}
@@ -120,7 +124,7 @@ namespace ViewModels
 
 		private string _inpustr_name;
 		private int _inpustr_count;
-		private string _inpustr_price;
+		private int _inpustr_price;
 
 
 		//После ввода текста срабатывает проперти_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
@@ -136,7 +140,7 @@ namespace ViewModels
 			set => Set(ref _inpustr_count, value);
 		}
 
-		public string InptStrPrice
+		public int InptStrPrice
 		{
 			get => _inpustr_price;
 			set => Set(ref _inpustr_price, value);
@@ -157,6 +161,17 @@ namespace ViewModels
 			return !string.IsNullOrEmpty(_inpustr_name);
 		}
 
+		public bool CanExAddInc(object i)
+		{ 
+			if(_inpustr_count != 0 && _inpustr_price != 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		public void OnAddPrvd(object p)
 		{
 			wh.InsertPrvd(_inpustr_name);
@@ -183,7 +198,7 @@ namespace ViewModels
 			ViewRecordsGs = new ListCollectionView(wh.gs.Select(vl => vl.Value).ToList());
 		}
 
-		
+
 		#region Title
 
 		private string _Title = "Warehouse 2.0";
@@ -209,7 +224,7 @@ namespace ViewModels
 		private string _name = "Name";
 		private ListCollectionView _view_recordCs;
 		private ListCollectionView _view_recordGs;
-		
+
 		public ListCollectionView ViewRecordsPrvd
 		{
 			get => _view_recordPrvd;
@@ -262,16 +277,7 @@ namespace ViewModels
 		}
 		#endregion
 
-		#region for add income comanda any
-		//1. 
-
-		#endregion
-
-		#region 
-
-
-
-
+		
 		public string NameColumnPrvd
 		{
 			get => _name;
