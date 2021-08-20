@@ -8,8 +8,8 @@
 			Name = _nm;
 		}
 
-		public int Pk{ get; }
-		public string Name{ get; }
+		public int Pk { get; }
+		public string Name { get; }
 
 		public override string ToString()
 		{

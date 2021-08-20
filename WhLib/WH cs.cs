@@ -8,11 +8,13 @@ namespace WhLib
 	/// </summary>
 	public class WH
 	{
+		//1. Объявление переменной
 		protected IDALWH PgP;
 
 		public WH(string ip, string unm, string pswd, string dbnm, string appnm, int port = 5432)
 		{
-			//Как происходит инициализация объектов?
+
+			//2. Как происходит инициализация объектов?
 			//Как происходит создание объекта?
 			//new PgProvider(ip, unm, pswd, dbnm, appnm) - создание объекта
 			PgP = new PgProvider(ip, unm, pswd, dbnm, appnm);
@@ -56,7 +58,10 @@ namespace WhLib
 
 		public void AddIncom(object goods, object provider, int price, int count)
 		{
-				AddIncom(((Goods)goods).Pk, ((Provider)provider).Pk, price, count);
+
+
+
+			AddIncom(((Goods)goods).Pk, ((Provider)provider).Pk, price, count);
 
 			//b logic
 			//PgP.InsertIncom(goods_pk, provider_pk, price, count);
@@ -83,8 +88,10 @@ namespace WhLib
 			cs = PgP.GetConsumers();
 		}
 
-		public void InsertGoods(string st)
+		//Полностью разобрали
+		public void InsertGoods(string st = null, int i = 0, int k=0, int y=10) //Если ничего не передали (вызвали метод без параметра то переменная st будет указывать на null (или другое значение например st="Hello world")) 
 		{
+				
 			PgP.InsertGoods(st);
 			gs = PgP.GetGoods();
 		}

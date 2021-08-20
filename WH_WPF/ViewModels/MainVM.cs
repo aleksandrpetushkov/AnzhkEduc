@@ -262,6 +262,16 @@ namespace ViewModels
 		}
 		#endregion
 
+		#region for add income comanda any
+		//1. 
+
+		#endregion
+
+		#region 
+
+
+
+
 		public string NameColumnPrvd
 		{
 			get => _name;
