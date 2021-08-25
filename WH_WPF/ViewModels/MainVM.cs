@@ -23,6 +23,9 @@ namespace ViewModels
 		public ICommand AddGs { get; }
 
 		public ICommand AddInc { get; }
+
+		public ICommand AddLeav { get; }
+
 		public MainVM() //Constructor 
 		{
 			wh = new WH("h.petushkov.com", "ang", "ang", "warehouse", "tst_wh");
@@ -41,7 +44,7 @@ namespace ViewModels
 
 			AddInc = new CmdCommon(OnAddInc, CanExAddInc);
 
-
+			AddLeav = new CmdCommon(OnAddLeav, CanExAddLeav);
 
 
 			//1
@@ -58,18 +61,18 @@ namespace ViewModels
 */
 			ViewRecordsInc = new ListCollectionView(GetIncByName().ToList());
 
-			var result_lev = from cs in wh.cs.Select(vl => vl.Value)
+			/*var result_lev = from cs in wh.cs.Select(vl => vl.Value)
 											 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
 											 join g in wh.gs.Select(vl => vl.Value) on lev.goods_pk equals g.Pk
 											 select new { Pk = lev.pk, NameC = cs.Name, NameG = g.Name, Count = lev.count, Price = lev.price };
+*/
+			ViewRecordsLeav = new ListCollectionView(GetLeavByName().ToList());
 
-			ViewRecordsLeav = new ListCollectionView(result_lev.ToList());
-
-			var result_stk = from gs in wh.gs.Select(vl => vl.Value)
+			/*var result_stk = from gs in wh.gs.Select(vl => vl.Value)
 											 join stk in wh.stock.Select(vl => vl.Value) on gs.Pk equals stk.pk_gs
 											 select new { NameG = gs.Name, Count = stk.count };
-
-			ViewRecordsStk = new ListCollectionView(result_stk.ToList());
+*/
+			ViewRecordsStk = new ListCollectionView(GetStkByName().ToList());
 
 			List<Sverka> svr = new List<Sverka>();
 
@@ -99,6 +102,20 @@ namespace ViewModels
 						 select new { Pk = inc.pk, NameP = prvd.Name, NameG = g.Name, Count = inc.Count, Price = inc.Price };
 		}
 
+		private IEnumerable<object> GetLeavByName()
+		{ 
+			return from cs in wh.cs.Select(vl => vl.Value)
+						 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
+						 join g in wh.gs.Select(vl => vl.Value) on lev.goods_pk equals g.Pk
+						 select new { Pk = lev.pk, NameC = cs.Name, NameG = g.Name, Count = lev.count, Price = lev.price };
+		}
+
+		private IEnumerable<object> GetStkByName()
+		{ 
+			return from gs in wh.gs.Select(vl => vl.Value)
+						 join stk in wh.stock.Select(vl => vl.Value) on gs.Pk equals stk.pk_gs
+						 select new { NameG = gs.Name, Count = stk.count };
+		}
 
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
@@ -182,6 +199,18 @@ namespace ViewModels
 				return false;
 			}
 		}
+
+		public bool CanExAddLeav(object i)
+		{ 
+			if(_inpustr_count != 0 && _inpustr_price != 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		public void OnAddPrvd(object p)
 		{
 			wh.InsertPrvd(_inpustr_name);
@@ -206,8 +235,15 @@ namespace ViewModels
 		{
 			wh.AddIncom(SelectGs, SelectPrvd, _inpustr_count, _inpustr_price);
 			ViewRecordsInc = new ListCollectionView(GetIncByName().ToList());
+			ViewRecordsStk = new ListCollectionView(GetStkByName().ToList());
 		}
 
+		public void OnAddLeav(object zu)
+		{
+			wh.AddLeav(SelectGs, SelectCs, _inpustr_count, _inpustr_price);
+			ViewRecordsLeav = new ListCollectionView(GetLeavByName().ToList());
+			ViewRecordsStk = new ListCollectionView(GetStkByName().ToList());
+		}
 
 		#region Title
 

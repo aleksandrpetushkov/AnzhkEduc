@@ -76,6 +76,10 @@ namespace WhLib
 			stock = PgP.GetStocks();
 		}
 
+		public void AddLeav(object goods, object consumer, int count, int price)
+		{
+			InsertLeav(((Goods)goods).Pk, ((Consumer)consumer).Pk, price, count);
+		}
 		public void InsertPrvd(string st)
 		{
 			PgP.InsertPrvd(st);
