@@ -8,7 +8,7 @@
 				mc:Ignorable="d"
 				Title="{Binding Path=Title}"
 				Height="450"
-				Width="Auto" d:DesignWidth="740.072">
+				Width="700" d:DesignWidth="740.072">
 	<Window.DataContext>
 		<vm:MainVM x:Name="VM" />
 	</Window.DataContext>
@@ -95,28 +95,38 @@
 			</WrapPanel>
 		</TabItem>
 		<TabItem Header="Приход">
-			<WrapPanel Orientation="Vertical">
-				<WrapPanel Orientation="Horizontal">
-					<ComboBox Name="Providers_inc" Width="90" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsPrvd}" DisplayMemberPath="Name" SelectedItem ="{Binding  SelectPrvd}">
+			
+				<Grid>				
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" >
+					<ComboBox Name="Providers" Width="90" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsPrvd}" DisplayMemberPath="Name" SelectedItem ="{Binding  SelecPrvd}">
 					</ComboBox>
-					<ComboBox Name="Goods_inc" Width="90" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsGs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectGs}">
+					<ComboBox Name="Goods" Width="90" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsGs}">
 					</ComboBox>
 					<TextBlock Text="Count:" />
-					<TextBox x:Name="Count_inc" Margin="2,0,5,0" Text="{Binding InptStrCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50" />
+					<TextBox x:Name="Count" Margin="2,0,5,0" Text="{Binding InptStrCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50" />
 					<TextBlock Text="Price:" />
-					<TextBox x:Name="Price_inc" Margin="2,0,5,0" Text="{Binding InptStrPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50" />
+					<TextBox x:Name="Price" Margin="2,0,5,0" Text="{Binding InptStrPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50" />
 					<Button Content="Add incoming" Command="{Binding AddInc}"/>
 				</WrapPanel>
-				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsInc}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Width="35" Header="№" Binding="{Binding Pk}"/>
-						<DataGridTextColumn Width="170" Header="Providers" Binding="{Binding NameP}" />
-						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}" />
-						<DataGridTextColumn Width="40" Header="Count" Binding="{Binding Count}" />
-						<DataGridTextColumn Width="40" Header="Price" Binding="{Binding Price}" />
-					</DataGrid.Columns>
-				</DataGrid>
-			</WrapPanel>
+				<WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+				
+					<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="True" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="True" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsInc}">
+							<DataGrid.Columns>
+								<DataGridTextColumn Width="35" Header="№" Binding="{Binding Pk}"/>
+								<DataGridTextColumn Width="*" Header="Providers" Binding="{Binding NameP}" />
+								<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}" />
+								<DataGridTextColumn Width="40" Header="Count" Binding="{Binding Count}" />
+								<DataGridTextColumn Width="40" Header="Price" Binding="{Binding Price}" />
+							</DataGrid.Columns>
+						</DataGrid>					
+				</WrapPanel>
+				
+			</Grid>
+			
 		</TabItem>
 		<TabItem Header="Расход">
 			<WrapPanel Orientation="Vertical">
@@ -130,19 +140,19 @@
 					<TextBlock Text="Price" />
 					<TextBox x:Name="Price_lev" Margin="2,0,5,0" Text="{Binding InptStrPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50"/>
 					<Button Content="Add leaving" Command="{Binding AddLeav}"/>
-					</WrapPanel>
+				</WrapPanel>
 				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsLeav}">
 					<DataGrid.Columns>
 						<DataGridTextColumn Width="35" Header="№" Binding="{Binding Pk}"/>
-						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}"/>
 						<DataGridTextColumn Width="170" Header="Consumers" Binding="{Binding NameC}"/>
+						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}"/>
 						<DataGridTextColumn Width="40" Header="Count" Binding="{Binding Count}"/>
 						<DataGridTextColumn Width="40" Header="Price" Binding="{Binding Price}"/>
 					</DataGrid.Columns>
 				</DataGrid>
 			</WrapPanel>
 		</TabItem>
-		<TabItem Header="Остаток">
+		<TabItem Header="Остаток" HorizontalAlignment="Left" Margin="-2,-2,0,0" Width="59">
 			<WrapPanel Orientation="Vertical">
 				<WrapPanel Orientation="Horizontal">
 					<ComboBox Name="GsStock" Width="100" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsGs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectGs}">
@@ -150,7 +160,7 @@
 					<TextBlock MinWidth="10" Text="Count"/>
 					<TextBox x:Name="Stock" Margin="2,0,3,0" Text="{Binding InptStrCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinWidth="50"/>
 					<Button Content="Add Stock" Command="{Binding AddStk}"/>
-					</WrapPanel>
+				</WrapPanel>
 				<DataGrid AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HeadersVisibility="Column" BorderThickness="0,1,0,1" CanUserAddRows="False" CanUserDeleteRows="True" ItemsSource="{Binding ViewRecordsStk}">
 					<DataGrid.Columns>
 						<DataGridTextColumn Width="170" Header="Goods" Binding="{Binding NameG}"/>
@@ -169,10 +179,12 @@
 						<DataGridTextColumn Width="50" Header="Leaving" Binding="{Binding Lev}"/>
 						<DataGridTextColumn Width="50" Header="Sverka" Binding="{Binding Sver}"/>
 					</DataGrid.Columns>
-				
+
 				</DataGrid>
-			
+
 			</WrapPanel>
 		</TabItem>
+
 	</TabControl>
+
 </Window>
