@@ -34,6 +34,8 @@ namespace ViewModels
 			NameColumnPrvd = "Providers";
 			AddPrvd = new CmdCommon(OnAddPrvd, CanExAddPrvd);
 
+			ViewRecordsPrvd_cmb = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
+
 			ViewRecordsCs = new ListCollectionView(wh.cs.Select(vl => vl.Value).ToList());
 			NameColumnCs = "Consumers";
 			AddCs = new CmdCommon(OnAddCs, CanExAddCs);
@@ -91,11 +93,12 @@ namespace ViewModels
 									 select new { NameG = g.Name, Inc = sv.inc, Stk = sv.stk, Lev = sv.lev, Sver = sv.sver };
 
 			ViewRecordsSver = new ListCollectionView(result.ToList());
+			SelectPrvd = null;
 
 		}
 
-		private IEnumerable<object> GetIncByName ()
-		{ 
+		private IEnumerable<object> GetIncByName()
+		{
 			return from prvd in wh.prvds.Select(vl => vl.Value)//.Where(o=>o.Name[0]=='Э')
 						 join inc in wh.incom.Select(vl => vl.Value) on prvd.Pk equals inc.provider_pk
 						 join g in wh.gs.Select(vl => vl.Value) on inc.goods_pk equals g.Pk
@@ -103,7 +106,7 @@ namespace ViewModels
 		}
 
 		private IEnumerable<object> GetLeavByName()
-		{ 
+		{
 			return from cs in wh.cs.Select(vl => vl.Value)
 						 join lev in wh.leaving.Select(vl => vl.Value) on cs.Pk equals lev.consumer_pk
 						 join g in wh.gs.Select(vl => vl.Value) on lev.goods_pk equals g.Pk
@@ -111,11 +114,12 @@ namespace ViewModels
 		}
 
 		private IEnumerable<object> GetStkByName()
-		{ 
+		{
 			return from gs in wh.gs.Select(vl => vl.Value)
 						 join stk in wh.stock.Select(vl => vl.Value) on gs.Pk equals stk.pk_gs
 						 select new { NameG = gs.Name, Count = stk.count };
 		}
+
 
 		public Provider f(KeyValuePair<int, Provider> vl)
 		{
@@ -134,7 +138,19 @@ namespace ViewModels
 		public object SelectPrvd
 		{
 			get => _selectPrvd;
-			set => Set(ref _selectPrvd, value);
+			set
+			{
+				int i = 1;
+				Set(ref _selectPrvd, value);
+				if(SelectPrvd is not null && SelectPrvd as Provider != null)
+				{
+					ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).Where(o => o.Name == ((Provider)SelectPrvd).Name).ToList());
+				}
+				else
+				{
+					ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
+				}
+			}
 		}
 
 		public object SelectGs
@@ -152,6 +168,7 @@ namespace ViewModels
 		private string _inpustr_name;
 		private int _inpustr_count;
 		private int _inpustr_price;
+
 
 
 		//После ввода текста срабатывает проперти_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
@@ -189,7 +206,7 @@ namespace ViewModels
 		}
 
 		public bool CanExAddInc(object i)
-		{ 
+		{
 			if(_inpustr_count != 0 && _inpustr_price != 0)
 			{
 				return true;
@@ -201,7 +218,7 @@ namespace ViewModels
 		}
 
 		public bool CanExAddLeav(object i)
-		{ 
+		{
 			if(_inpustr_count != 0 && _inpustr_price != 0)
 			{
 				return true;
@@ -270,6 +287,7 @@ namespace ViewModels
 		private string _name = "Name";
 		private ListCollectionView _view_recordCs;
 		private ListCollectionView _view_recordGs;
+		private ListCollectionView _view_recordPrvd_cmb;
 
 		public ListCollectionView ViewRecordsPrvd
 		{
@@ -287,6 +305,12 @@ namespace ViewModels
 		{
 			get => _view_recordGs;
 			set => Set(ref _view_recordGs, value);
+		}
+
+		public ListCollectionView ViewRecordsPrvd_cmb
+		{
+			get => _view_recordPrvd_cmb;
+			set => Set(ref _view_recordPrvd_cmb, value);
 		}
 		#region Income
 		private ListCollectionView _view_recordInc;
@@ -323,7 +347,7 @@ namespace ViewModels
 		}
 		#endregion
 
-		
+
 		public string NameColumnPrvd
 		{
 			get => _name;

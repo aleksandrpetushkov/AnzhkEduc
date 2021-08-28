@@ -23,14 +23,17 @@ namespace WH_WPF
 	{
 		public MainWindow()
 		{
+			//MainVM VM = new MainVM();
 			InitializeComponent();
+			//Prvds.SelectedIndex = -1;
 		}
 
-		/*
-private void UIWindow_Loaded(object sender, RoutedEventArgs e)
-{
-DataContext = new MainVM();
-}
-*/
-	}
+				
+				/*
+		private void UIWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+		DataContext = new MainVM();
+		}
+		*/
+		}
 }

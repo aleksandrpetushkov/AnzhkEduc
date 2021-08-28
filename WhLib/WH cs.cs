@@ -39,7 +39,7 @@ namespace WhLib
 		}
 
 		//TODO: Dictionаry - это
-		public Dictionary<int, Provider> prvds { get; protected set; }
+		public Dictionary<int, Provider> prvds { get ; protected set; }
 		public Dictionary<int, Consumer> cs { get; set; }
 		public Dictionary<int, Goods> gs { get; set; }
 		public Dictionary<int, Incoming> incom { get; set; }
