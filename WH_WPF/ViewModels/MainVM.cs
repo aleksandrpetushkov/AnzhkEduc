@@ -115,19 +115,56 @@ namespace ViewModels
 
 		private IEnumerable<object> GetStkByName()
 		{
+
+
+
+
 			return from gs in wh.gs.Select(vl => vl.Value)
 						 join stk in wh.stock.Select(vl => vl.Value) on gs.Pk equals stk.pk_gs
 						 select new { NameG = gs.Name, Count = stk.count };
 		}
 
 
-		public Provider f(KeyValuePair<int, Provider> vl)
+
+
+
+		private void zzz()
 		{
-			if(vl.Value is null)
-				return null;
-			return null;
+			zk(wh.prvds, f);
+			
+			wh.prvds.Select(o=>o.Value.Name);
+			wh.prvds.Select(f);
 
 		}
+		public Provider f(KeyValuePair<int, Provider> vl)  //vl => vl.value
+		{
+		
+			return vl.Value;
+
+		}
+
+
+
+		public void zk(Dictionary<int, Provider> d, Func<KeyValuePair<int, Provider>, Provider> vl)
+		{
+
+		
+			List<Provider> kq = new();
+			foreach(var k in d)
+			{
+				vl(k);
+			}
+			///return kq;
+		}
+
+
+		public string fst(KeyValuePair<int, Provider> vl)  //vl => vl.value.name
+		{
+
+			return vl.Value.Name;
+
+		}
+
 
 		protected object _selectPrvd;
 
@@ -142,14 +179,14 @@ namespace ViewModels
 			{
 				int i = 1;
 				Set(ref _selectPrvd, value);
-				if(SelectPrvd is not null && SelectPrvd as Provider != null)
+				/*if(SelectPrvd is not null && SelectPrvd as Provider != null)
 				{
 					ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).Where(o => o.Name == ((Provider)SelectPrvd).Name).ToList());
 				}
 				else
 				{
 					ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
-				}
+				}*/
 			}
 		}
 
@@ -168,7 +205,7 @@ namespace ViewModels
 		private string _inpustr_name;
 		private int _inpustr_count;
 		private int _inpustr_price;
-
+		private string _inpustr_name_tbx;
 
 
 		//После ввода текста срабатывает проперти_ченже и введеный текст пытается установиться в свойство "InptStrName (вызывается его сеттор - set)"
@@ -188,6 +225,32 @@ namespace ViewModels
 		{
 			get => _inpustr_price;
 			set => Set(ref _inpustr_price, value);
+		}
+
+		public string InputStrName_tbx
+		{
+			get => _inpustr_name_tbx;
+			set
+			{
+				Set(ref _inpustr_name_tbx, value);
+				ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(v => v.Value).Where(r).ToList());
+				//o => o.Name.ToUpper() == 
+			}
+		}
+
+		public bool r (Provider p)
+		{
+			p.Name.ToLower();
+			InputStrName_tbx.ToLower();
+			
+			if(p.Name.ToLower().IndexOf(InputStrName_tbx.ToLower()) > -1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		public bool CanExAddPrvd(object p)
@@ -231,7 +294,7 @@ namespace ViewModels
 		public void OnAddPrvd(object p)
 		{
 			wh.InsertPrvd(_inpustr_name);
-			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(vl => vl.Value).ToList());
+			ViewRecordsPrvd = new ListCollectionView(wh.prvds.Select(f).ToList());
 		}
 
 		public void OnAddCs(object c)

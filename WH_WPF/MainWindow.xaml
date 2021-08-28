@@ -37,7 +37,8 @@
 									MinWidth="150" />
 					<Button Content="Add Providers"
 									Command="{Binding AddPrvd}" />
-					<ComboBox Name="Prvds" Width="100" VerticalAlignment="Top" ItemsSource="{Binding ViewRecordsPrvd_cmb}" DisplayMemberPath="Name" SelectedItem="{Binding SelectPrvd, Mode=TwoWay}" />
+					<TextBlock Text="Show Prvds" MinWidth="35"/>
+					<TextBox x:Name="Prvd_tbx" Margin="2,0,2,0" TextWrapping="Wrap" MinWidth="150" Text="{Binding InputStrName_tbx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 				</WrapPanel>
 				<DataGrid Grid.Row="1"
 									AutoGenerateColumns="False"
